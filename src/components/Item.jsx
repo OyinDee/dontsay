@@ -9,7 +9,7 @@ function Item({img,text,date}) {
       <div className="card-body">
         <p className="card-text">{text}</p>
         <p className="card-text">
-          <small className="">Date: {date} </small>
+          {date?<small className="">Date: {date} </small>:<small className="">...</small}
         </p>
     </div>
     </div>
@@ -19,7 +19,7 @@ function Item({img,text,date}) {
       <div className="card-body">
         <p className="card-text">{text}</p>
         <p className="card-text">
-          <small className="">Date: {date} </small>
+          {date?<small className="">Date: {date} </small>:<small className="">...</small}
         </p>
     </div>
     </div>
