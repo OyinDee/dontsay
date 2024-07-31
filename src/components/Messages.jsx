@@ -43,7 +43,8 @@ function Messages() {
       navigate('/')
     }
     const copy =()=>{
-      navigator.clipboard.writeText(`wispah.vercel.app/send/${username}`)
+      navigator.clipboard.writeText(`ready, set, vent! 💀\n
+send me an anonymous message, get everything off your chest, you can add an image for context or proof, if you dare. let's get real!! 🤐 \nwispah.vercel.app/send/${username}`)
       alert("Copied!")
     }
   return (
