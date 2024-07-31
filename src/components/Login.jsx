@@ -22,7 +22,7 @@ function Login() {
       setloading(true)
   
       axios.post('https://dontsay-backend.onrender.com/user/login', ({
-        username:username,
+        username:username.toLowerCase(),
         password:password
       }))
       .then((result)=>{
