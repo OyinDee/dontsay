@@ -46,14 +46,16 @@ function Login() {
   return (
     <>
 
-    <MDBContainer fluid className="p-3 my-5 h-custom">
+   <MDBContainer fluid className="p-3 my-5 h-custom" style={{display: "flex",
+    height: "100dvh"}}>
 
-<MDBRow>
+<MDBRow style={{width: "100%",margin: "auto"}}>
 
-  <MDBCol col='10' md='6'>
-    <img src={loginImg} className="img-fluid" alt="Sample image" />
-  </MDBCol>
-  <MDBCol col='4' md='6'>
+<MDBCol col='10' md='6'>
+<img src={signupImg} className="img-fluid" alt="Sample image" />
+</MDBCol>
+
+<MDBCol col='4' md='6' style={{display: "flex",maxWidth: "40rem",flexDirection: "column",marginTop: "-2rem",justifyContent: "center"}}>
     <div className='mt-5'></div>
     <div className='fs-1'>
       LOGIN TO HEAR YOUR WHISPERS...
