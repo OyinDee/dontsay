@@ -53,7 +53,7 @@ function Messages() {
     <div className="card mb-3 mt-5">
     
       <div className="card-body">
-        <p className="card-text">Welcome, {username}.</p>
+        <p className="card-text">Welcome, {username.toUpperCase()}.</p>
         <p className="card-text">
           <small className="">Here is your link: wispah.vercel.app/send/{username}</small>
         </p>
