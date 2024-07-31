@@ -72,7 +72,7 @@ function Send() {
 </div>
 
 <textarea className='form-control p-1 my-2' placeholder='...Your text here' onChange={(e)=>{setmessage(e.target.value)}}/>
-<MDBInput wrapperClass='mb-4' label='Image' id='formControlLg' type='file' accept='image/' size="lg" onChange={(e)=>{handleImg(e)}}/>
+<MDBInput wrapperClass='mb-4' id='formControlLg' type='file' accept='image/' size="lg" onChange={(e)=>{handleImg(e)}}/>
 {messagee}
   {loading?<span disabled className='form-control d-flex justify-content-center center' style={{backgroundColor: "#080a1d"}}><div className="spinner-border" role="status"></div></span>: <button className="mb-0 px-5 form-control" onClick={send} style={{backgroundColor: "#05163d", color: "white"}}>WISPA...</button>}
 
