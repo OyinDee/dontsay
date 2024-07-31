@@ -4,7 +4,7 @@ import Item from './Item'
 import axios from 'axios';
 
 const items = [
-{text: 'No whispers yet', date: '000-000' },
+{message: 'No whispers yet', time: '000-000' },
 ];
 function Messages() {
   const [username, setusername] = useState("...")
