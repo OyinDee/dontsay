@@ -52,7 +52,7 @@ function Login() {
 <MDBRow style={{width: "100%",margin: "auto"}}>
 
 <MDBCol col='10' md='6'>
-<img src={signupImg} className="img-fluid" alt="Sample image" />
+<img src={loginImg} className="img-fluid" alt="Sample image" />
 </MDBCol>
 
 <MDBCol col='4' md='6' style={{display: "flex",maxWidth: "40rem",flexDirection: "column",marginTop: "-2rem",justifyContent: "center"}}>
