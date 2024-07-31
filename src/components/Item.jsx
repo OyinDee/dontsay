@@ -8,7 +8,7 @@ function Item({img,text,date}) {
     <>
     {img? <div>
     <div className="card mb-3">
-      <img src={img} onClick={getImage} className="card-img-top img-fluid" alt="Image" style={{maxHeight: "200px", maxWidth: '100%'}}/>
+      <img src={img} onClick={getImage} className="card-img-top img-fluid" alt="Image" style={{maxHeight: "200px", maxWidth: '100%', objectFit: "cover"}}/>
       <div className="card-body">
         <p className="card-text">{text}</p>
         <p className="card-text">
