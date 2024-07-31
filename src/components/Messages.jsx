@@ -58,6 +58,8 @@ function Messages() {
           <small className="">Here is your link: wispah.vercel.app/send/{username}</small>
         </p>
         <button className='btn btn-light' onClick={copy}>Copy</button>
+         <p className="card-text text-center">Click images to enlarge to original size</p>
+
     </div>
     </div>
     </div>
