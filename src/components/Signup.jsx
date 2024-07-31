@@ -63,7 +63,7 @@ function Signup() {
   SIGN UP TO LISTEN TO YOUR FRIEND'S WHISPERS...
 </div>
 
-<MDBInput wrapperClass='mb-4' label='Username' id='formControlLg' type='text' size="lg" onChange={(e)=>{setusername(e.target.value)}}/>
+<MDBInput wrapperClass='mb-4' label='Username' id='formControlLg' type='text' size="lg" onChange={(e)=>{setusername((e.target.value).toLowerCase()}}/>
 <MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg" onChange={(e)=>{setpassword(e.target.value)}}/>
 
 
