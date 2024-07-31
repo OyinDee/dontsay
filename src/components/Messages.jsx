@@ -58,7 +58,7 @@ send me an anonymous message, get everything off your chest, you can add an imag
         <p className="card-text">
           <small className="">Here is your link: wispah.vercel.app/send/{username}</small>
         </p>
-        <button className='btn btn-light' onClick={copy}>Copy</button>
+        <button className='btn btn-light' onClick={copy}>Copy with content</button>
          <p className="card-text text-center">Click images to enlarge to original size</p>
 
     </div>
