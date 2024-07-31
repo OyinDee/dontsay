@@ -43,7 +43,7 @@ function Messages() {
       navigate('/')
     }
     const copy =()=>{
-      navigator.clipboard.writeText(`wispa.vercel.app/${username}`)
+      navigator.clipboard.writeText(`wispah.vercel.app/${username}`)
       alert("Copied!")
     }
   return (
@@ -55,7 +55,7 @@ function Messages() {
       <div className="card-body">
         <p className="card-text">Welcome, {username}.</p>
         <p className="card-text">
-          <small className="">Here is your link: wispa.vercel.app/{username}</small>
+          <small className="">Here is your link: wispah.vercel.app/{username}</small>
         </p>
         <button className='btn btn-light' onClick={copy}>Copy</button>
     </div>
