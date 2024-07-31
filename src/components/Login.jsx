@@ -46,7 +46,7 @@ function Login() {
   return (
     <>
 
-   <MDBContainer fluid className="p-3 my-5 h-custom" style={{display: "flex",
+<MDBContainer fluid className="p-3 my-5 h-custom" style={{display: "flex",
     height: "100dvh"}}>
 
 <MDBRow style={{width: "100%",margin: "auto"}}>
