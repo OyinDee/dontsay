@@ -50,7 +50,7 @@ function Messages() {
     <>
 
 <div>
-    <div className="card mb-3">
+    <div className="card mb-3 mt-5">
     
       <div className="card-body">
         <p className="card-text">Welcome, {username}.</p>
