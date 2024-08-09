@@ -62,7 +62,9 @@ body {
 
 .message-image {
   max-width: 100%;
-  height: auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 20vh;
   border-radius: 10px;
   cursor: pointer;
 }
