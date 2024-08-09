@@ -14,7 +14,7 @@ function Messages() {
 
   useEffect(() => {
     if (token) {
-      axios.post('https://dontsay-backend.onrender.com/get', { token })
+      axios.post('https://wispain.vercel.app/get', { token })
         .then((result) => {
           if (result.data) {
             setUsername(result.data.username.toLowerCase());
