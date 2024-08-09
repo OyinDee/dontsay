@@ -22,8 +22,8 @@ function Signup() {
       setMessage("You know what to do.");
       return false;
     }
-    if (username.includes(" ")) {
-      setMessage("Username cannot contain spaces.");
+    if (username.includes(" ")||username.includes(".")) {
+      setMessage("Username cannot contain spaces or fullstops.");
       return false;
     }
     if (password.length < 6) {
@@ -41,7 +41,7 @@ function Signup() {
     setLoading(true);
 
     axios.post('https://wispain.vercel.app/user/create', {
-      username: username,
+      username: username.toLowerCase(),
       password: password
     })
     .then((result) => {
