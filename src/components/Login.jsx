@@ -33,7 +33,7 @@ const LoginPage = () => {
     setLoading(true);
 
     axios
-      .post('https://wispain.vercel.app.com/user/login', {
+      .post('https://wispain.vercel.app/user/login', {
         username: username.toLowerCase(),
         password: password,
       })
