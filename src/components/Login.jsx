@@ -33,7 +33,7 @@ const LoginPage = () => {
     setLoading(true);
 
     axios
-      .post('https://dontsay-backend.onrender.com/user/login', {
+      .post('https://wispain.vercel.app.com/user/login', {
         username: username.toLowerCase(),
         password: password,
       })
