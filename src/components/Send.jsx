@@ -11,7 +11,7 @@ function Send() {
   const [img, setImg] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  const date = new Date();
   const handleMsg = (e) => {
     let inputText = e.target.value;
     inputText = inputText.replace('/\r?\n/g', '\n');
@@ -44,6 +44,7 @@ function Send() {
         username: usernamee,
         message: message,
         img: img,
+        time: date
       })
       .then((result) => {
         setLoading(false);
