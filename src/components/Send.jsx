@@ -40,7 +40,7 @@ function Send() {
     setLoading(true);
 
     axios
-      .post('https://dontsay-backend.onrender.com/send', {
+      .post('https://wispain.vercel.app/send', {
         username: usernamee,
         message: message,
         img: img,
