@@ -33,7 +33,7 @@ const LoginPage = () => {
     setLoading(true);
 
     axios
-      .post('http://localhost:7000/user/login', {
+      .post('https://dontsay-backend.onrender.com/user/login', {
         username: username.toLowerCase(),
         password: password,
       })
