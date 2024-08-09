@@ -1,88 +1,100 @@
-import { useState } from 'react'
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import sendImg from '../assets/secret.svg'
-import {MDBContainer, MDBCol, MDBRow, MDBInput} from 'mdb-react-ui-kit';
+import { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import sendImg from '../assets/secret.svg';
+import '../Send.css'; 
 import axios from 'axios';
+
 function Send() {
-  let { usernamee} = useParams();
-    const [message, setmessage] = useState('')
+  const { usernamee } = useParams();
+  const [message, setMessage] = useState('');
+  const [messagee, setMessagee] = useState('');
+  const [img, setImg] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-    const [messagee, setmessagee] = useState("")
-    const [img, setimg] = useState("")
-    const navigate = useNavigate()
-    const [loading, setloading] = useState(false)
-    const handleImg =(e)=>{
-      setloading(true)
-        const file = e.target.files[0]
+  const handleMsg = (e) => {
+    let inputText = e.target.value;
+    inputText = inputText.replace('/\r?\n/g', '\n');
+    setMessage(inputText);
+  };
 
-        const reader = new FileReader()
+  const handleImg = (e) => {
+    setLoading(true);
+    const file = e.target.files[0];
+    const reader = new FileReader();
 
-        reader.onload =()=>{
-            setimg(reader.result)
+    reader.onload = () => {
+      setImg(reader.result);
+      setLoading(false);
+    };
 
-            setloading(false)
+    reader.readAsDataURL(file);
+  };
+
+  const send = () => {
+    if (message === '') {
+      alert('Fill in everything, fam...');
+      return;
+    }
+
+    setLoading(true);
+
+    axios
+      .post('https://dontsay-backend.onrender.com/send', {
+        username: usernamee,
+        message: message,
+        img: img,
+      })
+      .then((result) => {
+        setLoading(false);
+        if (result.data.stat === true) {
+          navigate('/sent');
+        } else if (result.data.message === 'user not found') {
+          setMessagee('Check link and try again');
+        } else {
+          setMessagee(result.data.message);
         }
-        reader.readAsDataURL(file)
-    }
-    const send = ()=>{
-      if (message=="") {
-        alert("Fill in everything, fam...")
-      }
-      else{
-        setloading(true)
-        console.log(usernamee)
-          console.log({username: usernamee, message: message, img: img})
-          axios.post(`https://dontsay-backend.onrender.com/send`, ({username: usernamee, message: message, img: img})).then((result)=>{
-            setloading(false)
+      })
+      .catch((err) => {
+        setLoading(false);
+        setMessagee(err.message);
+      });
+  };
 
-            console.log(result)
-            if (result.data.stat==true) {
-              navigate('/sent')
-            }
-            else{
-              if (result.data.message=="user not found") {
-                setmessagee("Check link and try again")
-              }
-              else{
-                setmessagee(result.data.message)
-              }
-            }
-          })
-          .catch((err)=>{
-            setloading(false)
-
-            setmessagee(err.message)
-          })
-      }
-    }
   return (
-    <>
-<MDBContainer fluid className="p-3 my-5 h-custom">
+    <div className="send-container">
+      <div className="send-form">
+        <img src={sendImg} className="send-image" alt="Send" />
+        <h2>WISPA TO {usernamee.toUpperCase()}</h2>
 
-<MDBRow>
+        <textarea
+          className="send-textarea"
+          placeholder="...Your text here"
+          onChange={handleMsg}
+          value={message}
+        />
 
-<MDBCol col='10' md='6'>
-<img src={sendImg} className="img-fluid" alt="Sample image" />
-</MDBCol>
+        <input
+          type="file"
+          className="send-input"
+          accept="image/*"
+          onChange={handleImg}
+        />
 
-<MDBCol col='4' md='6'>
-<div className='fs-1 text-center fw-bold'>
-  WISPA TO {usernamee.toUpperCase()}
-</div>
+        <p className="text-danger">{messagee}</p>
 
-<textarea className='form-control p-1 my-2' placeholder='...Your text here' onChange={(e)=>{setmessage(e.target.value)}}/>
-<MDBInput wrapperClass='mb-4' id='formControlLg' type='file' accept='image/' size="lg" onChange={(e)=>{handleImg(e)}}/>
-{messagee}
-  {loading?<span disabled className='form-control d-flex justify-content-center center' style={{backgroundColor: "#080a1d"}}><div className="spinner-border" role="status"></div></span>: <button className="mb-0 px-5 form-control" onClick={send} style={{backgroundColor: "#05163d", color: "white"}}>WISPA...</button>}
-
-</MDBCol>
-
-</MDBRow>
-
-</MDBContainer>
-    </>
-  )
+        {loading ? (
+          <div className="loading-container">
+            <div className="spinner-border text-light" role="status"></div>
+          </div>
+        ) : (
+          <button className="send-btn" onClick={send}>
+            WISPA...
+          </button>
+        )}
+      </div>
+    </div>
+  );
 }
 
-export default Send
+export default Send;

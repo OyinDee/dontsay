@@ -1,0 +1,155 @@
+body {
+  background-color: #080a1d;
+  color: #cbd4c2;
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.header-card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 5vh 2.5vw;
+  max-width: 800px;
+  padding: 10px;
+  border: 2px solid #eeefec;
+  border-radius: 15px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+
+.copy-button {
+  margin-top: 10px;
+  border-color: #cbd4c2;
+  background-color: #cbd4c2;
+  color: #080a1d;
+}
+
+.instructions {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 1.5em;
+  color: #cbd4c2;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.messages-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 10px;
+}
+
+.message-box {
+  background-color: #080a1d;
+  margin-bottom: 10px;
+  padding: 15px;
+  box-shadow: 3px 5px rgb(49, 49, 93);
+  transition: transform 0.3s;
+}
+
+.message-box:hover {
+  transform: scale(1.02);
+}
+
+.message-image-container {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.message-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+
+
+.quote-container {
+  position: relative;
+  padding: 40px 30px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  color: #cbd4c2;
+  background-color: rgb(19, 19, 46);
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.quote-mark {
+  
+  font-size: 3.2rem;
+  line-height: 1;
+  color: #cbd4c2;
+  font-weight: bold;
+  position: absolute;
+}
+
+.quote-mark:first-of-type {
+  top: 1.1rem;
+  left: 5%;
+}
+
+.quote-mark:last-of-type {
+  bottom: -10px;
+  left: 88%;
+}
+
+.message-content {
+  position: relative;
+  padding: 20px 30px;
+  border-radius: 10px;
+  color: #cbd4c2;
+  font-family: 'Georgia', serif; /* You can choose a different font if you prefer */
+  word-wrap: break-word; /* Ensure long words wrap to the next line */
+  overflow: hidden; 
+
+}
+
+.message-text {
+  margin: 0;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  text-align: center;
+  line-height: 1.5;
+  word-wrap: break-word; /* Break long words */
+  white-space: pre-wrap; /* Preserve line breaks and whitespace */
+}
+
+.message-date {
+  font-size: 0.85em;
+  color: #cbd4c2;
+  text-align: center;
+
+  margin-bottom: 10px;
+}
+
+.generated-text {
+  font-size: 0.75em;
+  color: #cbd4c2;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.download-button {
+  background-color: transparent;
+  border: 1px solid #cbd4c2;
+  justify-content: center;
+  align-self: answer;
+}
+
+.logout-button {
+  background-color: #080a1d;
+  color: #cbd4c2;
+  border: 2px solid #ffffff;
+  text-align: center;
+}
+
+.divider {
+  border-top: 10px solid #cbd4c2;
+  margin: 10px 0;
+}

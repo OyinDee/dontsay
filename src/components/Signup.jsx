@@ -1,88 +1,103 @@
-import React, { useState } from 'react'
-import signupImg from '../assets/signup.svg'
+import { useState, useEffect } from 'react';
+import signupImg from '../assets/signup.svg';
 import axios from 'axios';
-import {MDBContainer, MDBCol, MDBRow, MDBBtn, MDBIcon, MDBInput, MDBCheckbox } from 'mdb-react-ui-kit';
-import { Link, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../Signup.css';
+
 function Signup() {
-  const [message, setmessage] = useState("")
-  const [username, setusername] = useState("")
-  const [password, setpassword] = useState("")
-  const [loading, setloading] = useState(false)
-  const navigate = useNavigate()
+  const [message, setMessage] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
-  if (localStorage.wispaToken) {
-    navigate("/get/")
-  }
-  }, [])
-  const signUp =()=>{
-    if (password=="" || username=="") {
-      setmessage("You know what to do.")
+    if (localStorage.wispaToken) {
+      navigate("/get/");
     }
-    else{
-      setloading(true)
-  
-      axios.post('https://dontsay-backend.onrender.com/user/create', ({
-        username:username,
-        password:password
-      }))
-      .then((result)=>{
-        console.log(result.data)
-        if (result.data.stat==true) {
-          localStorage.setItem("wispaToken", result.data.token)
-          navigate("/get/");
-        }
-        else{
-        setmessage(result.data.message)
-        }
-        setloading(false)
-      })
-      .catch((err)=>{
-        setmessage(err.message)
-        console.log(err.message)
-        setloading(false)
-      })
+  }, [navigate]);
+
+  const validateForm = () => {
+    if (username === "" || password === "") {
+      setMessage("You know what to do.");
+      return false;
     }
-  }
+    if (username.includes(" ")) {
+      setMessage("Username cannot contain spaces.");
+      return false;
+    }
+    if (password.length < 6) {
+      setMessage("Password must be at least 6 characters long.");
+      return false;
+    }
+    return true;
+  };
+
+  const signUp = () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    setLoading(true);
+
+    axios.post('https://dontsay-backend.onrender.com/user/create', {
+      username: username,
+      password: password
+    })
+    .then((result) => {
+      if (result.data.stat === true) {
+        localStorage.setItem("wispaToken", result.data.token);
+        navigate("/get/");
+      } else {
+        setMessage(result.data.message);
+      }
+      setLoading(false);
+    })
+    .catch((err) => {
+      setMessage(err.message);
+      setLoading(false);
+    });
+  };
+
   return (
-    <>
-          <>
+    <div className="signup-container">
+      <div className="signup-form">
+        <img src={signupImg} alt="Sign Up" className="signup-image" />
 
+        <h2 className="mb-4">Sign Up to Whisper</h2>
 
-<MDBContainer fluid className="p-3 my-5 h-custom" style={{display: "flex",
-    height: "100dvh"}}>
+        <input
+          type="text"
+          className="form-control mb-3 signup-input"
+          placeholder="Username"
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
-<MDBRow style={{width: "100%",margin: "auto"}}>
+        <input
+          type="password"
+          className="form-control mb-3 signup-input"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-<MDBCol col='10' md='6'>
-<img src={signupImg} className="img-fluid" alt="Sample image" />
-</MDBCol>
+        <p className="text-danger mb-3">{message}</p>
 
-<MDBCol col='4' md='6' style={{display: "flex",maxWidth: "40rem",flexDirection: "column",marginTop: "-2rem",justifyContent: "center"}}>
-<div className='fs-1'>
-  SIGN UP TO LISTEN TO YOUR FRIEND'S WHISPERS...
-</div>
+        {loading ? (
+          <div className="form-control loading-container">
+            <div className="spinner-border text-light" role="status"></div>
+          </div>
+        ) : (
+          <button className="btn btn-block signup-btn" onClick={signUp}>
+            SIGN UP
+          </button>
+        )}
 
-<MDBInput wrapperClass='mb-4' label='Username' id='formControlLg' type='text' size="lg" onChange={(e)=>{setusername((e.target.value).toLowerCase())}}/>
-<MDBInput wrapperClass='mb-4' label='Password' id='formControlLg' type='password' size="lg" onChange={(e)=>{setpassword(e.target.value)}}/>
-
-
-
-{message}
-      {loading==false? <button className="mb-0 px-5 form-control" onClick={signUp} style={{backgroundColor: "#05163d", color: "white"}}>SIGNUP</button>: <span disabled className='form-control d-flex justify-content-center center' style={{backgroundColor: "#080a1d"}}><div className="spinner-border" role="status"></div></span>}
-
-<div className='text-center text-md-start mt-4 pt-2'>
-  <p className="small fw-bold mt-2 pt-1 mb-2">Already have an account? <a href='/'>Login</a></p>
-</div>
-
-</MDBCol>
-
-</MDBRow>
-
-</MDBContainer>
-</>
-    </>
-  )
+        <p className="small fw-bold mt-4">
+          Already have an account? <a href="/" className="login-link">Login</a>
+        </p>
+      </div>
+    </div>
+  );
 }
 
-export default Signup
+export default Signup;
