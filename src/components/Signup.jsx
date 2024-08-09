@@ -40,7 +40,7 @@ function Signup() {
 
     setLoading(true);
 
-    axios.post('https://dontsay-backend.onrender.com/user/create', {
+    axios.post('https://wispain.vercel.app/user/create', {
       username: username,
       password: password
     })
