@@ -101,7 +101,7 @@ function Messages() {
                 <pre className="message-text">{message.message}</pre>
                 <span className="quote-mark">”</span>
               </div>
-              <p className="message-date">{(message.time).toLocaleString()}</p>
+              <p className="message-date">{new Date(message.time).toUTCString()}</p>
               <button className="btn w-100 btn-sm btn-outline-light mt-2 text-center download-button" onClick={() => downloadCard(index)}>Download Card</button>
             </div>
           </div>
