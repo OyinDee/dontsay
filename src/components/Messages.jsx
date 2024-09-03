@@ -35,7 +35,7 @@ function Messages() {
   };
 
   const copy = () => {
-    navigator.clipboard.writeText(`ready, set, vent! 💀\nsend me an anonymous message, get everything off your chest, you can add an image for context or proof, if you dare. let's get real!! 🤐 \nwispah.vercel.app/send/${username}`);
+    navigator.clipboard.writeText(`ready, set, vent! 💀\nsend me an anonymous message, get everything off your chest, you can add an image for context or proof, if you dare. let's get real!! 🤐 \nhttps://wispah.vercel.app/send/${username}`);
     alert("Copied!");
   };
 
@@ -72,7 +72,7 @@ function Messages() {
           {username !== "..." && (
             <>
               <p>Welcome, {username.toUpperCase()}.</p>
-              <p>Here is your link: <a href={`/send/${username}`}>wispah.vercel.app/send/{username}</a></p>
+              <p>Here is your link: <a href={`/send/${username}`}>https://wispah.vercel.app/send/{username}</a></p>
               <button className='btn btn-outline-light copy-button' onClick={copy}>Copy with content</button>
             </>
           )}
