@@ -19,11 +19,12 @@ function Signup() {
 
   const validateForm = () => {
     if (username === "" || password === "") {
-      setMessage("You know what to do.");
+      setMessage("Please fill in all fields.");
       return false;
     }
-    if (username.includes(" ")||username.includes(".")) {
-      setMessage("Username cannot contain spaces or fullstops.");
+    const usernameRegex = /^[a-zA-Z0-9_]+$/;
+    if (!usernameRegex.test(username)) {
+      setMessage("Username can only contain letters, numbers, and underscores.");
       return false;
     }
     if (password.length < 6) {
@@ -63,25 +64,20 @@ function Signup() {
     <div className="signup-container">
       <div className="signup-form">
         <img src={signupImg} alt="Sign Up" className="signup-image" />
-
         <h2 className="mb-4">Sign Up to Whisper</h2>
-
         <input
           type="text"
           className="form-control mb-3 signup-input"
           placeholder="Username"
           onChange={(e) => setUsername(e.target.value)}
         />
-
         <input
           type="password"
           className="form-control mb-3 signup-input"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
-
         <p className="text-danger mb-3">{message}</p>
-
         {loading ? (
           <div className="form-control loading-container">
             <div className="spinner-border text-light" role="status"></div>
@@ -91,7 +87,6 @@ function Signup() {
             SIGN UP
           </button>
         )}
-
         <p className="small fw-bold mt-4">
           Already have an account? <a href="/" className="login-link">Login</a>
         </p>
