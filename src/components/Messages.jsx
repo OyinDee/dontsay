@@ -52,7 +52,7 @@ function Messages() {
 
   const downloadCard = useCallback(
     (index) => {
-      const card = cardRef.current.children[index + 1];
+      const card = cardRef.current.children[index];
       const button = card.querySelector(".download-button");
       const generatedText = document.createElement("p");
 
