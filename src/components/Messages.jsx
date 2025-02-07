@@ -196,7 +196,7 @@ const downloadQR = useCallback(() => {
                     Copy Just Link 🔗
                   </button>
                   <button
-                    className="btn w-100 btn-sm btn-outline-light mt-2 text-center download-button"
+                    className="copy-button"
                     onClick={downloadQR}
                   >
                     Download QR Code 📱
@@ -282,7 +282,7 @@ const downloadQR = useCallback(() => {
                   Copy Just Link 🔗
                 </button>
                 <button
-                  className="btn w-100 btn-sm btn-outline-light mt-2 text-center download-button"
+                  className="copy-button"
                   onClick={downloadQR}
                 >
                   Download QR Code 📱
@@ -367,7 +367,7 @@ const downloadQR = useCallback(() => {
                     Copy Just Link 🔗
                   </button>
                   <button
-                    className="btn w-100 btn-sm btn-outline-light mt-2 text-center download-button"
+                    className="copy-button"
                     onClick={downloadQR}
                   >
                     Download QR Code 📱
