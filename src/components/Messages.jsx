@@ -209,7 +209,7 @@ const downloadQR = useCallback(() => {
             <div className="qr-side-left">
               <QRCode
                 value={`https://wispah.vercel.app/send/${username}`}
-                size={150}
+                size={200}
                 bgColor="#ffffff"
                 fgColor="#000000"
                 level="H"
@@ -218,7 +218,7 @@ const downloadQR = useCallback(() => {
             <div className="qr-side-right">
               <QRCode
                 value={`https://wispah.vercel.app/send/${username}`}
-                size={150}
+                size={200}
                 bgColor="#ffffff"
                 fgColor="#000000"
                 level="H"
@@ -295,7 +295,7 @@ const downloadQR = useCallback(() => {
           <div className="qr-side-left">
             <QRCode
               value={`https://wispah.vercel.app/send/${username}`}
-              size={150}
+              size={200}
               bgColor="#ffffff"
               fgColor="#000000"
               level="H"
@@ -304,7 +304,7 @@ const downloadQR = useCallback(() => {
           <div className="qr-side-right">
             <QRCode
               value={`https://wispah.vercel.app/send/${username}`}
-              size={150}
+              size={200}
               bgColor="#ffffff"
               fgColor="#000000"
               level="H"
@@ -380,7 +380,7 @@ const downloadQR = useCallback(() => {
             <div className="qr-side-left">
               <QRCode
                 value={`https://wispah.vercel.app/send/${username}`}
-                size={150}
+                size={200}
                 bgColor="#ffffff"
                 fgColor="#000000"
                 level="H"
@@ -389,7 +389,7 @@ const downloadQR = useCallback(() => {
             <div className="qr-side-right">
               <QRCode
                 value={`https://wispah.vercel.app/send/${username}`}
-                size={150}
+                size={200}
                 bgColor="#ffffff"
                 fgColor="#000000"
                 level="H"
