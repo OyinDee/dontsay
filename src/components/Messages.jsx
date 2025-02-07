@@ -178,12 +178,6 @@ const downloadQR = useCallback(() => {
                   />
                 </div>
               </div>
-                <button
-                  className="download-qr-button"
-                  onClick={downloadQR}
-                >
-                  Download QR Code 📱
-                </button>
               <div className="share-buttons">
                 <button
                   className="copy-button"
@@ -199,6 +193,12 @@ const downloadQR = useCallback(() => {
                   }}
                 >
                   Copy Just Link 🔗
+                </button>
+                <button
+                  className="download-qr-button"
+                  onClick={downloadQR}
+                >
+                  Download QR Code 📱
                 </button>
               </div>
             </>
@@ -247,12 +247,6 @@ const downloadQR = useCallback(() => {
                     />
                   </div>
                 </div>
-                  <button
-                    className="download-qr-button"
-                    onClick={downloadQR}
-                  >
-                    Download QR Code 📱
-                  </button>
                 <div className="share-buttons">
                   <button
                     className="copy-button"
@@ -268,6 +262,12 @@ const downloadQR = useCallback(() => {
                     }}
                   >
                     Copy Just Link 🔗
+                  </button>
+                  <button
+                    className="download-qr-button"
+                    onClick={downloadQR}
+                  >
+                    Download QR Code 📱
                   </button>
                 </div>
               </>
@@ -312,12 +312,6 @@ const downloadQR = useCallback(() => {
                   />
                 </div>
               </div>
-                <button
-                  className="download-qr-button"
-                  onClick={downloadQR}
-                >
-                  Download QR Code 📱
-                </button>
               <div className="share-buttons">
                 <button
                   className="copy-button"
@@ -333,6 +327,12 @@ const downloadQR = useCallback(() => {
                   }}
                 >
                   Copy Just Link 🔗
+                </button>
+                <button
+                  className="download-qr-button"
+                  onClick={downloadQR}
+                >
+                  Download QR Code 📱
                 </button>
               </div>
             </>
