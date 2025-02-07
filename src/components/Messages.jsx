@@ -155,55 +155,77 @@ const downloadQR = useCallback(() => {
         {showProfile ? "Hide Profile" : "Show Profile"}
       </button>
       {showProfile && (
-        <div className="profile-section">
-          {username !== "..." && (
-            <>
-              <h1 className="profile-username">
-                Chief {username.toUpperCase()}! 🕵️‍♂️
-              </h1>
-              <div className="share-link">
-                <p>Share your secret link:</p>
-                <a href={`/send/${username}`}>
-                  https://wispah.vercel.app/send/{username}
-                </a>
-              </div>
-              <div className="qr-container">
-                <div ref={qrCodeRef}>
-                  <QRCode
-                    value={`https://wispah.vercel.app/send/${username}`}
-                    size={200}
-                    bgColor="#ffffff"
-                    fgColor="#000000"
-                    level="H"
-                  />
+        <>
+          <div className="profile-section">
+            {username !== "..." && (
+              <>
+                <h1 className="profile-username">
+                  Chief {username.toUpperCase()}! 🕵️‍♂️
+                </h1>
+                <div className="share-link">
+                  <p>Share your secret link:</p>
+                  <a href={`/send/${username}`}>
+                    https://wispah.vercel.app/send/{username}
+                  </a>
                 </div>
-              </div>
-              <div className="share-buttons">
-                <button
-                  className="copy-button"
-                  onClick={copy}
-                >
-                  Copy Link with Message 📋
-                </button>
-                <button
-                  className="copy-button"
-                  onClick={() => {
-                    navigator.clipboard.writeText(`https://wispah.vercel.app/send/${username}`);
-                    alert("Link copied! 📋");
-                  }}
-                >
-                  Copy Just Link 🔗
-                </button>
-                <button
-                  className="copy-button"
-                  onClick={downloadQR}
-                >
-                  Download QR Code 📱
-                </button>
-              </div>
-            </>
-          )}
-        </div>
+                <div className="qr-container">
+                  <div ref={qrCodeRef}>
+                    <QRCode
+                      value={`https://wispah.vercel.app/send/${username}`}
+                      size={200}
+                      bgColor="#ffffff"
+                      fgColor="#000000"
+                      level="H"
+                    />
+                  </div>
+                </div>
+                <div className="share-buttons">
+                  <button
+                    className="copy-button"
+                    onClick={copy}
+                  >
+                    Copy Link with Message 📋
+                  </button>
+                  <button
+                    className="copy-button"
+                    onClick={() => {
+                      navigator.clipboard.writeText(`https://wispah.vercel.app/send/${username}`);
+                      alert("Link copied! 📋");
+                    }}
+                  >
+                    Copy Just Link 🔗
+                  </button>
+                  <button
+                    className="btn w-100 btn-sm btn-outline-light mt-2 text-center download-button"
+                    onClick={downloadQR}
+                  >
+                    Download QR Code 📱
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+          <div className="qr-sides">
+            <div className="qr-side-left">
+              <QRCode
+                value={`https://wispah.vercel.app/send/${username}`}
+                size={150}
+                bgColor="#ffffff"
+                fgColor="#000000"
+                level="H"
+              />
+            </div>
+            <div className="qr-side-right">
+              <QRCode
+                value={`https://wispah.vercel.app/send/${username}`}
+                size={150}
+                bgColor="#ffffff"
+                fgColor="#000000"
+                level="H"
+              />
+            </div>
+          </div>
+        </>
       )}
       <div className="loading-container">
         <div className="spinner-border text-light" role="status"></div>
@@ -269,6 +291,26 @@ const downloadQR = useCallback(() => {
             </>
           )}
         </div>
+        <div className="qr-sides">
+          <div className="qr-side-left">
+            <QRCode
+              value={`https://wispah.vercel.app/send/${username}`}
+              size={150}
+              bgColor="#ffffff"
+              fgColor="#000000"
+              level="H"
+            />
+          </div>
+          <div className="qr-side-right">
+            <QRCode
+              value={`https://wispah.vercel.app/send/${username}`}
+              size={150}
+              bgColor="#ffffff"
+              fgColor="#000000"
+              level="H"
+            />
+          </div>
+        </div>
         <div className="alert alert-info">
           <h3>🦗 *crickets chirping*</h3>
           <p>Your inbox is as empty as a teenager's promises to clean their room!</p>
@@ -284,77 +326,79 @@ const downloadQR = useCallback(() => {
         {showProfile ? "Hide Profile" : "Show Profile"}
       </button>
       {showProfile && (
-        <div className="profile-section">
-          {username !== "..." && (
-            <>
-              <h1 className="profile-username">
-                Chief {username.toUpperCase()}! 🕵️‍♂️
-              </h1>
-              <div className="share-link">
-                <p>Share your secret link:</p>
-                <a href={`/send/{username}`}>
-                  https://wispah.vercel.app/send/{username}
-                </a>
-              </div>
-              <div className="qr-container">
-                <div ref={qrCodeRef}>
-                  <QRCode
-                    value={`https://wispah.vercel.app/send/${username}`}
-                    size={200}
-                    bgColor="#ffffff"
-                    fgColor="#000000"
-                    level="H"
-                  />
+        <>
+          <div className="profile-section">
+            {username !== "..." && (
+              <>
+                <h1 className="profile-username">
+                  Chief {username.toUpperCase()}! 🕵️‍♂️
+                </h1>
+                <div className="share-link">
+                  <p>Share your secret link:</p>
+                  <a href={`/send/{username}`}>
+                    https://wispah.vercel.app/send/{username}
+                  </a>
                 </div>
-              </div>
-              <div className="share-buttons">
-                <button
-                  className="copy-button"
-                  onClick={copy}
-                >
-                  Copy Link with Message 📋
-                </button>
-                <button
-                  className="copy-button"
-                  onClick={() => {
-                    navigator.clipboard.writeText(`https://wispah.vercel.app/send/${username}`);
-                    alert("Link copied! 📋");
-                  }}
-                >
-                  Copy Just Link 🔗
-                </button>
-                <button
-                  className="copy-button"
-                  onClick={downloadQR}
-                >
-                  Download QR Code 📱
-                </button>
-              </div>
-            </>
-          )}
-        </div>
+                <div className="qr-container">
+                  <div ref={qrCodeRef}>
+                    <QRCode
+                      value={`https://wispah.vercel.app/send/{username}`}
+                      size={200}
+                      bgColor="#ffffff"
+                      fgColor="#000000"
+                      level="H"
+                    />
+                  </div>
+                </div>
+                <div className="share-buttons">
+                  <button
+                    className="copy-button"
+                    onClick={copy}
+                  >
+                    Copy Link with Message 📋
+                  </button>
+                  <button
+                    className="copy-button"
+                    onClick={() => {
+                      navigator.clipboard.writeText(`https://wispah.vercel.app/send/{username}`);
+                      alert("Link copied! 📋");
+                    }}
+                  >
+                    Copy Just Link 🔗
+                  </button>
+                  <button
+                    className="btn w-100 btn-sm btn-outline-light mt-2 text-center download-button"
+                    onClick={downloadQR}
+                  >
+                    Download QR Code 📱
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+          <div className="qr-sides">
+            <div className="qr-side-left">
+              <QRCode
+                value={`https://wispah.vercel.app/send/${username}`}
+                size={150}
+                bgColor="#ffffff"
+                fgColor="#000000"
+                level="H"
+              />
+            </div>
+            <div className="qr-side-right">
+              <QRCode
+                value={`https://wispah.vercel.app/send/${username}`}
+                size={150}
+                bgColor="#ffffff"
+                fgColor="#000000"
+                level="H"
+              />
+            </div>
+          </div>
+        </>
       )}
       <p className="instructions">If you're interested in any of the images, click to view in full size</p>
-      <div className="qr-sides">
-        <div className="qr-side-left">
-          <QRCode
-            value={`https://wispah.vercel.app/send/${username}`}
-            size={100}
-            bgColor="#ffffff"
-            fgColor="#000000"
-            level="H"
-          />
-        </div>
-        <div className="qr-side-right">
-          <QRCode
-            value={`https://wispah.vercel.app/send/${username}`}
-            size={100}
-            bgColor="#ffffff"
-            fgColor="#000000"
-            level="H"
-          />
-        </div>
-      </div>
       <div className="messages-container" ref={cardRef}>
         {messages
           .slice()
