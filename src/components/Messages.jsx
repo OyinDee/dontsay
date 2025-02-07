@@ -151,7 +151,7 @@ const downloadQR = useCallback(() => {
 
   if (!data) return (
     <>
-      <button onClick={() => setShowProfile(!showProfile)}>
+      <button className="btn w-100 btn-sm btn-outline-light mt-2 text-center download-button" onClick={() => setShowProfile(!showProfile)}>
         {showProfile ? "Hide Profile" : "Show Profile"}
       </button>
       {showProfile && (
@@ -220,7 +220,7 @@ const downloadQR = useCallback(() => {
   if (messages.length === 0) {
     return (
       <>
-        <button onClick={() => setShowProfile(!showProfile)}>
+        <button className="btn w-100 btn-sm btn-outline-light mt-2 text-center download-button" onClick={() => setShowProfile(!showProfile)}>
           {showProfile ? "Hide Profile" : "Show Profile"}
         </button>
         {showProfile && (
@@ -285,7 +285,7 @@ const downloadQR = useCallback(() => {
 
   return (
     <>
-      <button onClick={() => setShowProfile(!showProfile)}>
+      <button className="btn w-100 btn-sm btn-outline-light mt-2 text-center download-button" onClick={() => setShowProfile(!showProfile)}>
         {showProfile ? "Hide Profile" : "Show Profile"}
       </button>
       {showProfile && (
