@@ -76,4 +76,114 @@
     justify-content: center;
     align-items: center;
   }
-  
+
+  .error-message {
+    color: #ff4444;
+    background-color: rgba(255, 68, 68, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px 0;
+    text-align: center;
+  }
+
+/* Add responsive styles */
+@media screen and (max-width: 768px) {
+  .send-container {
+    padding: 0.5rem;
+    flex-direction: column;
+  }
+
+  .send-container h1 {
+    font-size: 1.5rem;
+    text-align: center;
+    margin: 1rem 0;
+  }
+
+  .send-form {
+    padding: 1rem;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    max-width: 100%;
+  }
+
+  .send-image {
+    max-width: 180px;
+  }
+
+  .send-form h1 {
+    font-size: 1.5rem;
+  }
+
+  .send-form h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .send-textarea {
+    height: 150px;
+    font-size: 1rem;
+  }
+
+  .send-btn {
+    font-size: 1.2rem;
+    padding: 0.6rem;
+  }
+
+  .send-input {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+
+  .char-count {
+    font-size: 0.9rem;
+  }
+
+  .error-message {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+
+  .loading-container {
+    padding: 0.5rem;
+  }
+}
+
+/* Add extra small device styles */
+@media screen and (max-width: 480px) {
+  .send-container {
+    padding: 0.5rem;
+  }
+
+  .send-container h1 {
+    font-size: 1.2rem;
+  }
+
+  .send-form {
+    padding: 0.8rem;
+  }
+
+  .send-image {
+    max-width: 150px;
+  }
+
+  .send-form h1 {
+    font-size: 1.3rem;
+  }
+
+  .send-form h2 {
+    font-size: 1.1rem;
+  }
+
+  .send-form h2:not(:first-child) {
+    display: none;
+  }
+
+  .send-textarea {
+    height: 120px;
+  }
+
+  .send-btn {
+    font-size: 1.1rem;
+  }
+}

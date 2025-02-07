@@ -1,0 +1,42 @@
+.notfound-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 2rem;
+}
+
+.notfound-container h1 {
+    font-size: 6rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.notfound-container p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: #666;
+}
+
+.notfound-container a {
+    color: #0066cc;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.notfound-container a:hover {
+    color: #003366;
+}
+
+@media (max-width: 768px) {
+    .notfound-container h1 {
+        font-size: 4rem;
+    }
+    
+    .notfound-container p {
+        font-size: 1.2rem;
+    }
+}

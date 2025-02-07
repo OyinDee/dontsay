@@ -1,7 +1,7 @@
 body {
   background-color: #080a1d;
   color: #cbd4c2;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -10,13 +10,13 @@ body {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin: 5vh 2.5vw;
+  margin: 20px auto;
   max-width: 800px;
-  padding: 10px;
+  padding: 30px;
   border: 2px solid #eeefec;
   border-radius: 15px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-
+  background-color: #1a1c3b;
 }
 
 .copy-button {
@@ -24,6 +24,15 @@ body {
   border-color: #cbd4c2;
   background-color: #cbd4c2;
   color: #080a1d;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.copy-button:hover {
+  transform: scale(1.05);
 }
 
 .instructions {
@@ -31,7 +40,7 @@ body {
   text-align: center;
   font-size: 1.5em;
   color: #cbd4c2;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .messages-container {
@@ -40,7 +49,7 @@ body {
   gap: 15px;
   margin: 0 auto;
   max-width: 800px;
-  padding: 10px;
+  padding: 20px;
 }
 
 .message-box {
@@ -49,6 +58,7 @@ body {
   padding: 15px;
   box-shadow: 3px 5px rgb(49, 49, 93);
   transition: transform 0.3s;
+  /* border-radius: 10px; */
 }
 
 .message-box:hover {
@@ -69,8 +79,6 @@ body {
   cursor: pointer;
 }
 
-
-
 .quote-container {
   position: relative;
   padding: 40px 30px;
@@ -78,11 +86,11 @@ body {
   border-radius: 10px;
   color: #cbd4c2;
   background-color: rgb(19, 19, 46);
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
 .quote-mark {
-  
   font-size: 3.2rem;
   line-height: 1;
   color: #cbd4c2;
@@ -105,10 +113,9 @@ body {
   padding: 20px 30px;
   border-radius: 10px;
   color: #cbd4c2;
-  font-family: 'Georgia', serif; /* You can choose a different font if you prefer */
-  word-wrap: break-word; /* Ensure long words wrap to the next line */
-  overflow: hidden; 
-
+  font-family: "Georgia", serif;
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
 .message-text {
@@ -117,22 +124,21 @@ body {
   font-size: 1.2em;
   text-align: center;
   line-height: 1.5;
-  word-wrap: break-word; /* Break long words */
-  white-space: pre-wrap; /* Preserve line breaks and whitespace */
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .message-date {
   font-size: 0.85em;
   color: #cbd4c2;
   text-align: center;
-
   margin-bottom: 10px;
 }
 
 .generated-text {
   font-size: 0.75em;
   color: #cbd4c2;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, "Times New Roman", Times, serif;
   text-align: center;
   margin-top: 10px;
 }
@@ -141,7 +147,7 @@ body {
   background-color: transparent;
   border: 1px solid #cbd4c2;
   justify-content: center;
-  align-self: answer;
+  align-self: center;
 }
 
 .logout-button {
@@ -154,4 +160,129 @@ body {
 .divider {
   border-top: 10px solid #cbd4c2;
   margin: 10px 0;
+}
+
+/* Add new styles for alerts and info messages */
+.alert {
+  background-color: #1a1c3b;
+  border: 2px solid #cbd4c2;
+  color: #cbd4c2;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  margin: 20px auto;
+  max-width: 800px;
+  box-shadow: 3px 5px rgb(49, 49, 93);
+}
+
+.alert-info {
+  background-color: #1a1c3b;
+  border-color: #4a9eff;
+}
+
+.alert-danger {
+  background-color: #1a1c3b;
+  border-color: #ff4a4a;
+}
+
+.alert p {
+  margin: 10px 0;
+  font-size: 1.2em;
+}
+
+/* Update loading container styles */
+.loading-container {
+  text-align: center;
+  padding: 40px;
+  color: #cbd4c2;
+  background-color: #1a1c3b;
+  border-radius: 15px;
+  margin: 20px auto;
+  max-width: 800px;
+  border: 2px solid #cbd4c2;
+  box-shadow: 3px 5px rgb(49, 49, 93);
+}
+
+.loading-container p {
+  margin-top: 20px;
+  font-size: 1.2em;
+}
+
+/* Update QR code container */
+.qr-code-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+  display: inline-block;
+}
+
+.qr-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.download-qr-button {
+  background-color: #cbd4c2;
+  color: #080a1d;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.download-qr-button:hover {
+  background-color: #9fbca9;
+}
+
+/* Add new styles for profile section */
+.profile-section {
+  text-align: center;
+  padding: 30px;
+  /* background-color: #1a1c3b; */
+  border-radius: 15px;
+  margin: 20px auto;
+  max-width: 800px;
+  /* border: 2px solid #eeefec; */
+  /* box-shadow: 3px 5px rgb(49, 49, 93); */
+}
+
+.profile-username {
+  font-size: 2em;
+  color: #cbd4c2;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.share-link {
+  background-color: #080a1d;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 20px 0;
+  word-break: break-all;
+}
+
+.share-link a {
+  color: #4a9eff;
+  text-decoration: none;
+}
+
+.qr-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  display: inline-block;
+  margin: 20px 0;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
 }

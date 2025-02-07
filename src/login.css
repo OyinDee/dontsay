@@ -76,3 +76,13 @@
   margin-top: 1.5rem;
   display: inline-block;
 }
+
+.forgot-password-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+}

@@ -8,15 +8,15 @@ function Sent() {
     return (
         <div className="sent-container">
             <div className="sent-content">
-                <img src={img} className="sent-image" alt="Sample image" />
+                <img src={img} className="sent-image" alt="Mission Accomplished!" />
                 <div className="sent-text">
-                    <h2>YOU JUST WISPA*D TO SOMEONE!</h2>
-                    <p>...get your wispa link too and share it, it is totally free!</p>
+                    <h2>BOOM! YOUR WISPA JUST NINJA'D ITS WAY TO THEM! 🥷</h2>
+                    <p>Want your own secret mailbox? It's free (like your tea-spilling spirit! 🫖)</p>
                     <button 
                         className="sent-btn" 
                         onClick={() => navigate('/')}
                     >
-                        Get Link
+                        Get Your Spy Kit 🕵️‍♂️
                     </button>
                 </div>
             </div>
