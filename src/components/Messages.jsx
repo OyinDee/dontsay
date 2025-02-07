@@ -340,7 +340,7 @@ const downloadQR = useCallback(() => {
         </div>
       )}
 
-        <p className="instructions">TAP ON ANY IMAGE TO ACCESS FULL SIZE</p>
+        <p className="instructions">If any of the images catch your attention, click on it to view in full size!</p>
       <div className="messages-container" ref={cardRef}>
 
         {messages
