@@ -63,7 +63,7 @@ body {
 .message-box {
   background-color: #080a1d;
   margin-bottom: 10px;
-  padding: 15px;
+  padding: 20px; /* Increase padding */
   box-shadow: 3px 5px rgb(49, 49, 93);
   transition: transform 0.3s;
   /* border-radius: 10px; */
@@ -293,4 +293,26 @@ body {
   gap: 10px;
   justify-content: center;
   margin-top: 20px;
+}
+
+/* Add styles for the QR codes on the sides of the page */
+.qr-sides {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.qr-side-left,
+.qr-side-right {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.qr-side-left {
+  left: 10px;
+}
+
+.qr-side-right {
+  right: 10px;
 }
