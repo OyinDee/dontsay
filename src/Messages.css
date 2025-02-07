@@ -297,22 +297,32 @@ body {
 
 /* Add styles for the QR codes on the sides of the page */
 .qr-sides {
-  display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
+  display: none;
 }
 
-.qr-side-left,
-.qr-side-right {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-}
+@media (min-width: 1024px) {
+  .qr-sides {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+  }
 
-.qr-side-left {
-  left: 10px;
-}
+  .qr-side-left,
+  .qr-side-right {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
 
-.qr-side-right {
-  right: 10px;
+  .qr-side-left {
+    left: 10px;
+  }
+
+  .qr-side-right {
+    right: 10px;
+  }
 }
