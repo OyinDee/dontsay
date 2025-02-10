@@ -19,10 +19,20 @@ function Send() {
     setError('');
   };
 
+  
   const handleImg = (e) => {
-    setImage(e.target.files[0]);
-    setError('');
+    setLoading(true);
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setImage(reader.result);
+      setLoading(false);
+    };
+
+    reader.readAsDataURL(file);
   };
+
 
   const send = async () => {
       const datee = new Date();
