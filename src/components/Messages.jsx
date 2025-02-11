@@ -165,7 +165,7 @@ const downloadQR = useCallback(() => {
                 <div className="share-link">
                   <p>Share your secret link:</p>
                   <a href={`/send/${username}`}>
-                    https://wispah.vercel.app/send/{username}
+                    https://wispah.vercel.app/${username}
                   </a>
                 </div>
                 <div className="qr-container">
@@ -251,13 +251,13 @@ const downloadQR = useCallback(() => {
               <div className="share-link">
                 <p>Share your secret link:</p>
                 <a href={`/send/{username}`}>
-                  https://wispah.vercel.app/send/{username}
+                  https://wispah.vercel.app/send/${username}
                 </a>
               </div>
               <div className="qr-container">
                 <div ref={qrCodeRef}>
                   <QRCode
-                    value={`https://wispah.vercel.app/send/{username}`}
+                    value={`https://wispah.vercel.app/send/${username}`}
                     size={200}
                     bgColor="#ffffff"
                     fgColor="#000000"
@@ -275,7 +275,7 @@ const downloadQR = useCallback(() => {
                 <button
                   className="copy-button"
                   onClick={() => {
-                    navigator.clipboard.writeText(`https://wispah.vercel.app/send/{username}`);
+                    navigator.clipboard.writeText(`https://wispah.vercel.app/send/${username}`);
                     alert("Link copied! 📋");
                   }}
                 >
@@ -336,18 +336,18 @@ const downloadQR = useCallback(() => {
                 <div className="share-link">
                   <p>Share your secret link:</p>
                   <a href={`/send/{username}`}>
-                    https://wispah.vercel.app/send/{username}
+                    https://wispah.vercel.app/send/${username}
                   </a>
                 </div>
                 <div className="qr-container">
                   <div ref={qrCodeRef}>
                     <QRCode
-                      value={`https://wispah.vercel.app/send/{username}`}
+                      value={`https://wispah.vercel.app/send/${username}`}
                       size={200}
                       bgColor="#ffffff"
                       fgColor="#000000"
                       level="H"
-                    />
+                    />${username}
                   </div>
                 </div>
                 <div className="share-buttons">
@@ -360,7 +360,7 @@ const downloadQR = useCallback(() => {
                   <button
                     className="copy-button"
                     onClick={() => {
-                      navigator.clipboard.writeText(`https://wispah.vercel.app/send/{username}`);
+                      navigator.clipboard.writeText(`https://wispah.vercel.app/send/${username}password `);
                       alert("Link copied! 📋");
                     }}
                   >
