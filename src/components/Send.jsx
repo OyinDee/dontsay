@@ -6,10 +6,10 @@ import { API } from '../lib/api'
 
 const MAX = 5000
 const EXPIRE_OPTIONS = [
-  { label: 'Never disappears', value: null, icon: '♾️' },
-  { label: 'Disappears in 1 hour', value: 3600, icon: '⏳' },
-  { label: 'Disappears in 24 hours', value: 86400, icon: '🌅' },
-  { label: 'Disappears in 7 days', value: 604800, icon: '📅' },
+  { label: 'Never disappears', value: null, icon: '\u221E' },
+  { label: 'Disappears in 1 hour', value: 3600, icon: '\u29D6' },
+  { label: 'Disappears in 24 hours', value: 86400, icon: '\u25CB' },
+  { label: 'Disappears in 7 days', value: 604800, icon: '\u25A1' },
 ]
 
 function GhostIllustration() {

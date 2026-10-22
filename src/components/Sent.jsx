@@ -84,7 +84,7 @@ export default function Sent() {
           {/* Stats strip */}
           <div className={`w-full flex items-center justify-center gap-6 py-4 rounded-xl
             ${dark ? 'bg-white/5 border border-white/8' : 'bg-brand-50 border border-brand-100'}`}>
-            {[['🔒', 'Untraceable'], ['⚡', 'Delivered'], ['🚫', 'Zero logs']].map(([icon, label]) => (
+            {[['\u2713', 'Untraceable'], ['\u2192', 'Delivered'], ['\u2715', 'Zero logs']].map(([icon, label]) => (
               <div key={label} className="flex flex-col items-center gap-1">
                 <span className="text-lg">{icon}</span>
                 <span className={`text-xs font-medium ${dark ? 'text-white/40' : 'text-gray-500'}`}>{label}</span>

@@ -54,10 +54,10 @@ export default function Signup() {
   useEffect(() => { if (localStorage.wispaToken) navigate('/get') }, [navigate])
 
   const validate = useCallback(() => {
-    if (!username || !password || !confirmPassword) { setMessage('Fill in all the blanks, secret agent! ???'); return false }
-    if (password !== confirmPassword)               { setMessage("Those passwords are having an identity crisis — they don't match! ??"); return false }
-    if (!/^[a-zA-Z0-9_]{3,20}$/.test(username))   { setMessage('Username must be 3–20 chars — letters, numbers, underscores only. Keep it clean, agent.'); return false }
-    if (password.length < 6)                        { setMessage('Password too short! Even secrets need at least 6 characters ??'); return false }
+    if (!username || !password || !confirmPassword) { setMessage('Fill in all the blanks, secret agent!'); return false }
+    if (password !== confirmPassword)               { setMessage("Those passwords don't match!"); return false }
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(username))   { setMessage('Username must be 3\u201320 chars \u2014 letters, numbers, underscores only.'); return false }
+    if (password.length < 6)                        { setMessage('Password too short! At least 6 characters required.'); return false }
     return true
   }, [username, password, confirmPassword])
 
@@ -176,7 +176,7 @@ export default function Signup() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
               </svg>
-              Building your secret lair… ???
+              Building your secret lair&hellip;
             </div>
           ) : (
             <button onClick={signUp} className="btn-primary">

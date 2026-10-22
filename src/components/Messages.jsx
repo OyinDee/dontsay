@@ -213,7 +213,7 @@ function MessageCard({ msg, index, dark, username, onDownload }) {
         <p className={`text-sm leading-relaxed font-medium whitespace-pre-wrap break-words
           ${dark ? 'text-gray-100' : 'text-gray-900'}
           ${expired ? 'line-through opacity-60' : ''}`}>
-          {expired ? 'This message has vanished' : (isLong && !expanded ? msg.message.slice(0, 200) + '…' : msg.message)}
+          {expired ? 'This message has vanished' : (isLong && !expanded ? msg.message.slice(0, 200) + '\u2026' : msg.message)}
         </p>
 
         {isLong && !expired && (
@@ -430,7 +430,7 @@ export default function Messages() {
   if (error) return (
     <div className={`${base} flex items-center justify-center p-4`}>
       <div className={`max-w-md w-full p-8 rounded-2xl text-center ${dark ? 'glass' : 'card-light'}`}>
-        <p className="text-4xl mb-4">😵</p>
+        <p className="text-4xl mb-4">&#128565;</p>
         <h2 className={`text-lg font-semibold ${dark ? 'text-white' : 'text-gray-900'}`}>Our carrier pigeon got lost!</h2>
         <p className={`text-sm mt-2 ${dark ? 'text-white/50' : 'text-gray-600'}`}>{error.message}</p>
         <button className="btn-primary mt-6" onClick={() => window.location.reload()}>Try again</button>

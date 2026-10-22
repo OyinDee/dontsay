@@ -57,7 +57,7 @@ function Bubble({ msg, isMe, dark }) {
             ? 'bg-white/8 text-gray-100 rounded-bl-sm'
             : 'bg-gray-100 text-gray-900 rounded-bl-sm'}
         ${expired ? 'opacity-40 line-through' : ''}`}>
-        {expired ? 'This message has vanished 👻' : msg.content}
+        {expired ? 'This message has vanished' : msg.content}
       </div>
       {msg.imageURL && !expired && (
         <img src={msg.imageURL} alt="" className="max-w-full rounded-xl mt-1 cursor-pointer"

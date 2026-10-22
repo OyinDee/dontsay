@@ -118,10 +118,10 @@ export default function LoginPage() {
             {/* Heading */}
             <div className="text-center">
               <h1 className={`text-2xl font-bold tracking-tight ${dark ? 'text-white' : 'text-gray-900'}`}>
-                Psst… you're back ??
+                Psst&hellip; you&apos;re back
               </h1>
               <p className={`text-sm mt-1 ${dark ? 'text-white/50' : 'text-gray-500'}`}>
-                Enter the secret chamber. No one's watching ??
+                Enter the secret chamber. No one&apos;s watching.
               </p>
             </div>
 
@@ -195,7 +195,7 @@ export default function LoginPage() {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
                 </svg>
-                Signing inâ€¦
+                Signing in&hellip;
               </div>
             ) : (
               <button onClick={logIn} className="btn-primary">
