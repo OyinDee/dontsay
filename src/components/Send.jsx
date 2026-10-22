@@ -331,7 +331,7 @@ export default function Send() {
                       Want to hear back?
                     </p>
                     <p className={`text-xs mt-0.5 ${dark ? 'text-white/40' : 'text-brand-600/70'}`}>
-                      {username} has enabled anonymous replies. Leave your email to get notified — still 100% anonymous.
+                      {username} has enabled anonymous replies, meaning you can get a response to whatever you have said to them. Leave your email to get notified IF they do — still 100% anonymous, they won't know you.
                     </p>
                   </div>
                 </div>
