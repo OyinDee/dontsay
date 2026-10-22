@@ -12,7 +12,7 @@ export default function ForgotPassword({ dark, onClose }) {
     if (!email || !username) { setMessage('Both fields are required.'); return }
     setMessage(''); setLoading(true)
     try {
-      const res = await axios.post('https://wispain.vercel.app/user/forgot-password', { email, username })
+      const res = await axios.post('https://dontsay-backend-am2k.onrender.com/user/forgot-password', { email, username })
       setMessage(res.data.message)
       if (res.data.stat === true) setSuccess(true)
     } catch (err) {

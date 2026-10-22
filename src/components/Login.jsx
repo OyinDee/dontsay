@@ -77,7 +77,7 @@ export default function LoginPage() {
     if (!username || !password) { setMessage('Please fill in both fields.'); return }
     setLoading(true); setMessage('')
     try {
-      const res = await axios.post('https://wispain.vercel.app/user/login', {
+      const res = await axios.post('https://dontsay-backend-am2k.onrender.com/user/login', {
         username: username.toLowerCase(), password,
       })
       if (res.data.stat === true) {
