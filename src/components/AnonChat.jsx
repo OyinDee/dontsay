@@ -156,12 +156,16 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
     setSending(true)
     const endpoint = isRecipient ? `${API}/anon/reply` : `${API}/anon/send`
     try {
-      await axios.post(endpoint, {
+      const res = await axios.post(endpoint, {
         threadId: thread._id,
         content: content.trim(),
         ...(title.trim() ? { title: title.trim() } : {}),
         ...(expiresIn ? { expiresIn } : {}),
       }, { headers: authHeader() })
+      const sent = res.data?.message
+      if (sent) {
+        setMessages(prev => prev.some(m => m._id === sent._id) ? prev : [...prev, sent])
+      }
       setContent(''); setTitle('')
     } catch {
       // silently fail — socket event will update UI anyway

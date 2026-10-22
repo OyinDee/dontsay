@@ -175,7 +175,7 @@ function ProfilePanel({ username, dark, qrRef, onDownloadQR, settings }) {
 }
 
 // ── MessageCard ───────────────────────────────────────────────
-function MessageCard({ msg, index, dark, username, onDownload }) {
+function MessageCard({ msg, index, dark, username, onDownload, onReply, replying }) {
   const [expanded, setExpanded] = useState(false)
   const isLong    = msg.message?.length > 200
   const expired   = msg.expiresAt && new Date(msg.expiresAt) < new Date()
@@ -227,16 +227,28 @@ function MessageCard({ msg, index, dark, username, onDownload }) {
           <span className={`text-xs font-mono ${dark ? 'text-white/35' : 'text-gray-400'}`}>
             {new Date(msg.time).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'2-digit', minute:'2-digit' })}
           </span>
-          {!expired && (
-            <button onClick={onDownload}
-              className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg font-medium transition-all duration-200 active:scale-90
-                ${dark ? 'text-white/40 hover:text-white hover:bg-white/8' : 'text-gray-400 hover:text-gray-800 hover:bg-gray-100'}`}>
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-              </svg>
-              Save
-            </button>
-          )}
+          <div className="flex items-center gap-1.5">
+            {!expired && (
+              <button onClick={onReply} disabled={replying}
+                className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg font-medium transition-all duration-200 active:scale-90 disabled:opacity-50
+                  ${dark ? 'text-brand-400 hover:text-brand-300 hover:bg-brand-500/10' : 'text-brand-600 hover:text-brand-500 hover:bg-brand-50'}`}>
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h10a5 5 0 015 5v4M3 10l5-5M3 10l5 5"/>
+                </svg>
+                {replying ? 'Opening…' : 'Reply'}
+              </button>
+            )}
+            {!expired && (
+              <button onClick={onDownload}
+                className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg font-medium transition-all duration-200 active:scale-90
+                  ${dark ? 'text-white/40 hover:text-white hover:bg-white/8' : 'text-gray-400 hover:text-gray-800 hover:bg-gray-100'}`}>
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+                Save
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -327,6 +339,7 @@ export default function Messages() {
   const [activeTab, setActiveTab]       = useState(TAB.WISPAS)
   const [threads, setThreads]           = useState([])
   const [openThread, setOpenThread]     = useState(null)
+  const [replyingId, setReplyingId]     = useState(null)
   const [toast, setToast]               = useState(null)
   const [liveMessages, setLiveMessages] = useState([]) // new wispas from socket
   const navigate   = useNavigate()
@@ -380,6 +393,32 @@ export default function Messages() {
     disconnectSocket()
     localStorage.removeItem('wispaToken')
     navigate('/')
+  }
+
+  // Start (or reopen) an anonymous conversation from an inbox message.
+  const startReply = async (msg) => {
+    if (!msg?._id || replyingId) return
+    setReplyingId(msg._id)
+    try {
+      const r = await axios.post(
+        `${API}/anon/thread/from-message`,
+        { messageId: msg._id },
+        { headers: authHeader() }
+      )
+      if (r.data?.stat) {
+        setOpenThread({
+          _id: r.data.threadId,
+          senderAlias: r.data.senderAlias,
+          status: r.data.status,
+        })
+      } else {
+        setToast(r.data?.message || 'Could not start that conversation.')
+      }
+    } catch (err) {
+      setToast(err.response?.data?.message || 'Could not start that conversation.')
+    } finally {
+      setReplyingId(null)
+    }
   }
 
   const downloadQR = useCallback(() => {
@@ -523,7 +562,9 @@ export default function Messages() {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {messages.map((msg, i) => (
                 <MessageCard key={msg._id || i} msg={msg} index={i} dark={dark} username={username}
-                  onDownload={() => buildAndDownloadCard(msg, username, i)}/>
+                  onDownload={() => buildAndDownloadCard(msg, username, i)}
+                  onReply={() => startReply(msg)}
+                  replying={replyingId === msg._id}/>
               ))}
             </div>
           )
