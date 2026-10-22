@@ -410,7 +410,8 @@ export default function Messages() {
   const messages      = [...dedupedLive, ...swrMessages]
   const msgCount      = messages.length
 
-  const base = dark ? 'min-h-screen bg-surface dot-grid' : 'min-h-screen bg-gradient-to-br from-brand-50/60 to-white'
+  const surface = dark ? 'bg-surface dot-grid' : 'bg-gradient-to-br from-brand-50/60 to-white'
+  const base = `min-h-screen ${surface}`
 
   // ── Open thread view ──
   if (openThread) return (
@@ -456,11 +457,12 @@ export default function Messages() {
   )
 
   return (
-    <div className={base}>
+    <div className={`${surface} h-[100dvh] flex flex-col overflow-hidden`}>
       {/* Toast */}
       {toast && <Toast msg={toast} dark={dark} onDismiss={() => setToast(null)}/>}
 
-      <div className="max-w-3xl mx-auto px-4 pt-8 pb-28">
+      <div className="flex-1 overflow-y-auto overscroll-contain">
+      <div className="max-w-3xl mx-auto px-4 pt-8 pb-8">
         {/* Top header */}
         <div className="flex items-center gap-3 mb-6">
           <div className="relative shrink-0">
@@ -559,9 +561,10 @@ export default function Messages() {
           />
         )}
       </div>
+      </div>
 
       {/* Bottom nav */}
-      <div className={`fixed bottom-0 inset-x-0 z-20 flex items-center justify-between px-6 py-3 backdrop-blur-xl
+      <div className={`shrink-0 flex items-center justify-between px-6 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-xl
         ${dark ? 'bg-[#0f1117]/90 border-t border-white/8' : 'bg-white/90 border-t border-gray-200'}`}>
         <div className="flex items-center gap-2.5">
           <div className="relative shrink-0">

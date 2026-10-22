@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import QRCode from 'react-qr-code'
 import { useTheme } from '../App'
+import { API } from '../lib/api'
 
 function SignupIllustration() {
   return (
@@ -50,6 +51,8 @@ export default function Signup() {
   const [showPwd, setShowPwd]         = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const pendingThreadId = searchParams.get('threadId') // set when coming from /claim
 
   useEffect(() => { if (localStorage.wispaToken) navigate('/get') }, [navigate])
 
@@ -70,6 +73,15 @@ export default function Signup() {
       })
       if (res.data.stat === true) {
         localStorage.setItem('wispaToken', res.data.token)
+        // If arriving from a claim link, auto-claim the thread before redirecting
+        if (pendingThreadId) {
+          try {
+            await axios.post(`${API}/anon/claim-thread`,
+              { threadId: pendingThreadId },
+              { headers: { Authorization: `Bearer ${res.data.token}` } }
+            )
+          } catch { /* non-fatal — user can claim from inbox */ }
+        }
         navigate('/get')
       } else {
         setMessage(res.data.message)
@@ -101,7 +113,7 @@ export default function Signup() {
 
           <div className="text-center">
             <h1 className={`text-2xl font-bold tracking-tight ${dark ? 'text-white' : 'text-gray-900'}`}>
-              Claim your secret inbox ???
+            Claim your secret inbox
             </h1>
             <p className={`text-sm mt-1 ${dark ? 'text-white/50' : 'text-gray-500'}`}>
               Set up your anonymous mailbox. It&apos;s free, it&apos;s fun, it&apos;s Wispa.
@@ -187,7 +199,7 @@ export default function Signup() {
           {username.length >= 3 && (
             <div className={`w-full flex flex-col items-center gap-3 pt-4 border-t ${dark ? 'border-white/10' : 'border-gray-100'} animate-fade-up`}>
               <p className={`text-xs font-medium ${dark ? 'text-white/40' : 'text-gray-400'}`}>
-                Your secret link is already alive ??
+              Your secret link is already live
               </p>
               <div className="p-3 bg-white rounded-xl">
                 <QRCode value={shareUrl} size={96} fgColor="#0f1117" bgColor="#ffffff" level="H"/>

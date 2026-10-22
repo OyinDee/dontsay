@@ -6,6 +6,7 @@ import Send from './components/Send'
 import Sent from './components/Sent'
 import Messages from './components/Messages'
 import NotFound from './components/NotFound'
+import ClaimThread from './components/ClaimThread'
 import { connectSocket, disconnectSocket } from './lib/socket'
 
 // ── Theme Context ──────────────────────────────────────────────
@@ -81,6 +82,7 @@ function App() {
           <Route path="/send/:username" element={<Send />} />
           <Route path="/get"          element={<Messages />} />
           <Route path="/sent"         element={<Sent />} />
+          <Route path="/claim"        element={<ClaimThread />} />
           <Route path="*"             element={<NotFound />} />
         </Routes>
       </div>
