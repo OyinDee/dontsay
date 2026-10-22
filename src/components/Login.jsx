@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
 import { useTheme } from '../App'
+import { API } from '../lib/api'
 import ForgotPassword from './ForgotPassword'
 
 // ── Inline SVG illustrations ─────────────────────────────────
@@ -77,7 +78,7 @@ export default function LoginPage() {
     if (!username || !password) { setMessage('Please fill in both fields.'); return }
     setLoading(true); setMessage('')
     try {
-      const res = await axios.post('https://dontsay-backend-am2k.onrender.com/user/login', {
+      const res = await axios.post(`${API}/user/login`, {
         username: username.toLowerCase(), password,
       })
       if (res.data.stat === true) {

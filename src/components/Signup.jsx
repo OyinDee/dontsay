@@ -68,7 +68,7 @@ export default function Signup() {
     if (!validate()) return
     setLoading(true); setMessage('')
     try {
-      const res = await axios.post('https://dontsay-backend-am2k.onrender.com/user/create', {
+      const res = await axios.post(`${API}/user/create`, {
         username: username.toLowerCase(), password,
       })
       if (res.data.stat === true) {

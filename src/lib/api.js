@@ -1,5 +1,5 @@
-// Central API base — swap this once the new backend is deployed
-export const API = 'https://wispain.vercel.app'
+// Central API base
+export const API = 'https://dontsay-backend-am2k.onrender.com'
 
 // Auth helper — returns Bearer header or empty object
 export const authHeader = () => {

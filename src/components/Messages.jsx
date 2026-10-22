@@ -347,9 +347,9 @@ export default function Messages() {
   const token      = localStorage.getItem('wispaToken')
 
   const { data, error, mutate } = useSWR(
-    token ? 'https://dontsay-backend-am2k.onrender.com/get' : null,
+    token ? `${API}/get` : null,
     fetcher,
-    { refreshInterval: 10000 }
+    { refreshInterval: 30000 }
   )
 
   // Bootstrap
