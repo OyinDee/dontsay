@@ -375,6 +375,7 @@
 }
 .chat-app-shell,
 .anon-chat-panel { position: relative; z-index: 1; background: transparent; }
+.typing-symbols { max-width: 100%; overflow-wrap: anywhere; font-family: ui-monospace, monospace; letter-spacing: .08em; line-height: 1.4; }
 .voice-player-progress {
   height: 3px;
   appearance: none;

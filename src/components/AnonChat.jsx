@@ -194,6 +194,7 @@ const EXPIRE_OPTIONS = [
   { label: '24 hours', value: 86400 },
   { label: '7 days', value: 604800 },
 ]
+const TYPING_SYMBOLS = '/#*~+<>!?&%$'
 
 // ── Main AnonChat ─────────────────────────────────────────────
 export default function AnonChat({ thread, isRecipient, dark, onClose }) {
@@ -207,6 +208,7 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
   const [sending, setSending]       = useState(false)
   const [sendError, setSendError]   = useState('')
   const [peerTyping, setPeerTyping] = useState(false)
+  const [typingSymbolCount, setTypingSymbolCount] = useState(0)
   const [image, setImage]           = useState(null)
   const [voiceNote, setVoiceNote]   = useState(null)
   const [recording, setRecording]   = useState(false)
@@ -253,7 +255,7 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
       if (threadId === thread._id) {
         setPeerTyping(true)
         clearTimeout(typingTimer.current)
-        typingTimer.current = setTimeout(() => setPeerTyping(false), 2500)
+        typingTimer.current = setTimeout(() => setPeerTyping(false), 5000)
       }
     }
     const onExpired = ({ messageId }) => {
@@ -262,8 +264,25 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
     s.on('new_anon_message', onMsg)
     s.on('typing', onTyping)
     s.on('message_expired', onExpired)
-    return () => { s.off('new_anon_message', onMsg); s.off('typing', onTyping); s.off('message_expired', onExpired) }
+    return () => {
+      clearTimeout(typingTimer.current)
+      s.off('new_anon_message', onMsg)
+      s.off('typing', onTyping)
+      s.off('message_expired', onExpired)
+    }
   }, [thread._id])
+
+  useEffect(() => {
+    if (!peerTyping) {
+      setTypingSymbolCount(0)
+      return
+    }
+    setTypingSymbolCount(4)
+    const interval = setInterval(() => {
+      setTypingSymbolCount(count => Math.min(count + 4, 48))
+    }, 5000)
+    return () => clearInterval(interval)
+  }, [peerTyping])
 
   // Scroll to bottom on new messages
   useEffect(() => {
@@ -415,9 +434,9 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
   const base = dark ? 'bg-[#0f1218]' : 'bg-[#f6f5f1]'
 
   return (
-    <div className={`anon-chat-panel mx-auto flex h-full w-full max-w-xl flex-col overflow-hidden border-x ${base} ${dark ? 'border-white/5' : 'border-gray-200'}`}>
+    <div className={`anon-chat-panel mx-auto flex h-full min-h-0 w-full max-w-xl flex-col overflow-hidden border-x ${base} ${dark ? 'border-white/5' : 'border-gray-200'}`}>
       {/* Header */}
-      <div className={`flex items-center gap-3 border-b px-4 py-3 ${
+      <div className={`sticky top-0 z-10 flex shrink-0 items-center gap-3 border-b px-4 py-3 ${
         dark ? 'border-[#2a3040] bg-[#0f1218]' : 'border-gray-200 bg-[#f6f5f1]'
       }`}>
         <button onClick={onClose} aria-label="Back to conversations"
@@ -435,14 +454,16 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
           <p className={`truncate text-sm font-bold ${dark ? 'text-white' : 'text-gray-900'}`}>
             {peerName}
           </p>
-          <p className={`text-xs ${peerTyping ? 'text-violet-300' : dark ? 'text-white/40' : 'text-gray-400'}`}>
-            {peerTyping ? 'typing…' : thread.status === 'active' ? 'Anonymous conversation' : 'Waiting for sender to claim'}
+          <p
+            className={`text-xs ${dark ? 'text-white/40' : 'text-gray-400'}`}
+          >
+            {thread.status === 'active' ? 'Anonymous conversation' : 'Waiting for sender to claim'}
           </p>
         </div>
       </div>
 
       {/* Messages */}
-      <div className={`flex-1 overflow-y-auto px-5 py-4 ${dark ? 'text-[#ebe9e2]' : 'text-gray-900'}`}>
+      <div className={`min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-4 ${dark ? 'text-[#ebe9e2]' : 'text-gray-900'}`}>
         {loading ? (
           <div className="flex-1 flex items-center justify-center">
             <svg className="w-5 h-5 text-brand-400 animate-spin" fill="none" viewBox="0 0 24 24">
@@ -461,9 +482,14 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
                 name={isMe ? 'you' : peerName} dark={dark}/>
             })}
             {peerTyping && (
-              <div className="relative mt-4 flex items-center gap-2 text-xs text-violet-300">
-                <span className="absolute -left-[25px] h-3 w-3 rounded-full bg-violet-300"/>
-                {peerName} is typing…
+              <div className="relative mt-4 flex items-start gap-2 text-xs text-violet-300" aria-live="polite">
+                <span className="absolute -left-[25px] mt-0.5 h-3 w-3 rounded-full bg-violet-300"/>
+                <div className="min-w-0">
+                  <p><b>{peerName}</b> typing</p>
+                  <p className="typing-symbols" aria-label={`${peerName} is typing`}>
+                    {Array.from({ length: typingSymbolCount }, (_, index) => TYPING_SYMBOLS[index % TYPING_SYMBOLS.length]).join('')}
+                  </p>
+                </div>
               </div>
             )}
           </div>
@@ -480,7 +506,7 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
       )}
 
       {/* Compose area */}
-      <div className={`border-t px-3 pb-3 pt-2 ${dark ? 'border-[#2a3040] bg-[#0f1218]' : 'border-gray-200 bg-[#f6f5f1]'}`}>
+      <div className={`shrink-0 border-t px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-2 ${dark ? 'border-[#2a3040] bg-[#0f1218]' : 'border-gray-200 bg-[#f6f5f1]'}`}>
         {sendError && (
           <p role="alert" className="mb-2 text-xs text-red-400">{sendError}</p>
         )}
