@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../App'
+import { AuthShell } from './AuthDesign'
 
 function NotFoundIllustration({ dark }) {
   return (
@@ -50,23 +51,19 @@ export default function NotFound() {
   const { dark } = useTheme()
   const navigate = useNavigate()
 
-  const base = dark
-    ? 'min-h-screen bg-surface dot-grid flex items-center justify-center p-4'
-    : 'min-h-screen bg-gradient-to-br from-brand-50 to-white flex items-center justify-center p-4'
-
   return (
-    <div className={base}>
-      <div className="flex flex-col items-center gap-6 text-center max-w-sm animate-fade-up">
+    <AuthShell dark={dark}>
+      <div className="flow-page not-found-page flex flex-col items-center gap-6 text-center animate-fade-up">
         <div className="w-full max-w-xs h-40">
           <NotFoundIllustration dark={dark} />
         </div>
 
         <div>
           <h1 className={`text-xl font-bold tracking-tight ${dark ? 'text-white' : 'text-gray-900'}`}>
-            You've wandered off the map, agent ???
+            This page is off the map
           </h1>
           <p className={`text-sm mt-2 ${dark ? 'text-white/50' : 'text-gray-500'}`}>
-            This page either never existed or it's been classified ??. Either way, there's nothing to see here.
+            The link may be broken or the page may have moved. Let&apos;s get you back.
           </p>
         </div>
 
@@ -74,6 +71,6 @@ export default function NotFound() {
           Back to home
         </button>
       </div>
-    </div>
+    </AuthShell>
   )
 }

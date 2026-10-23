@@ -225,6 +225,10 @@
 .auth-mark i:nth-child(3) { height: 13px; }
 
 .auth-content { width: 100%; max-width: 368px; }
+.auth-content-wide { max-width: 520px; }
+.auth-wide { justify-content: flex-start; }
+.auth-wide .auth-brand { left: max(1.5rem, calc(50% - 260px)); }
+.auth-wide .auth-footnote { position: static; margin-top: 2rem; }
 .auth-heading { margin-bottom: 2rem; }
 .auth-heading h1 { color: var(--auth-text); font-size: clamp(2rem, 8vw, 2.35rem); font-weight: 700; letter-spacing: -.04em; line-height: 1.08; }
 .auth-heading p { max-width: 34ch; margin-top: .6rem; color: var(--auth-muted); font-size: .95rem; }
@@ -277,6 +281,135 @@
 .auth-qr { display: flex; flex-direction: column; align-items: center; gap: .65rem; margin: 1rem 0 0 2rem; border-top: 1px solid var(--auth-line); padding-top: 1rem; color: var(--auth-muted); font-size: .75rem; text-align: center; }
 .auth-qr-code { padding: .55rem; border-radius: .65rem; background: #fff; }
 .auth-qr-link { max-width: 100%; overflow-wrap: anywhere; font-family: ui-monospace, monospace; }
+
+.send-page { width: 100%; }
+.send-form { padding: 0; }
+.send-form > .w-24 { width: 5.5rem; height: 5.5rem; }
+
+.flow-page {
+  width: 100%;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--auth-line);
+  border-bottom: 1px solid var(--auth-line);
+}
+
+.sent-page { border: 0; }
+.claim-page { max-width: 368px; margin: 0 auto; }
+.not-found-page { max-width: 368px; margin: 0 auto; }
+
+.dashboard-shell {
+  font-family: "Bricolage Grotesque", Inter, system-ui, sans-serif;
+  transition: background-color .2s ease, color .2s ease;
+}
+.dashboard-dark { background: #0f1218; color: #ebe9e2; }
+.dashboard-light { background: #f6f5f1; color: #181a21; }
+.dashboard-content { width: min(100%, 520px); }
+.dashboard-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.4rem;
+}
+.dashboard-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -.04em;
+}
+.dashboard-eyebrow {
+  color: currentColor;
+  font-family: ui-monospace, monospace;
+  font-size: .62rem;
+  letter-spacing: .12em;
+  opacity: .52;
+}
+.dashboard-tabs {
+  border-bottom: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+}
+.dashboard-tab {
+  position: relative;
+  color: color-mix(in srgb, currentColor 54%, transparent);
+}
+.dashboard-tab:hover, .dashboard-tab.is-active { color: currentColor; }
+.dashboard-tab.is-active::after {
+  position: absolute;
+  right: .75rem;
+  bottom: -1px;
+  left: .75rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--auth-mint, #74e3b5);
+  content: "";
+}
+.wispa-timeline {
+  position: relative;
+  padding-left: 1.15rem;
+}
+.wispa-timeline::before {
+  position: absolute;
+  top: .4rem;
+  bottom: .5rem;
+  left: .25rem;
+  width: 1px;
+  background: color-mix(in srgb, currentColor 16%, transparent);
+  content: "";
+}
+.wispa-entry {
+  position: relative;
+  min-width: 0;
+}
+.wispa-entry::before {
+  position: absolute;
+  top: .5rem;
+  left: -1.1rem;
+  width: .55rem;
+  height: .55rem;
+  border: 2px solid #74e3b5;
+  border-radius: 50%;
+  background: #0f1218;
+  content: "";
+}
+.dashboard-light .wispa-entry::before { background: #f6f5f1; }
+.wispa-entry-body {
+  min-width: 0;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+}
+.wispa-quote-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, #74e3b5 12%, transparent);
+}
+.wispa-thread-list { padding-left: 1.15rem; }
+.wispa-thread-item {
+  border-bottom: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+}
+.dashboard-dock {
+  max-width: 520px;
+  width: 100%;
+  align-self: center;
+  border-top: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  background: color-mix(in srgb, #0f1218 94%, transparent);
+}
+.dashboard-light .dashboard-dock { background: color-mix(in srgb, #f6f5f1 94%, transparent); }
+.settings-page { gap: 1.25rem; }
+.settings-panel {
+  border: 0 !important;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 14%, transparent) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.settings-toggles { border-bottom: 0 !important; }
+.settings-profile { padding-left: 0 !important; padding-right: 0 !important; }
+.settings-bio { padding-left: 0 !important; padding-right: 0 !important; }
+.settings-toggles > div { padding-right: 0; padding-left: 0; }
 
 @media (prefers-reduced-motion: reduce) {
   .auth-whisper { animation: none; opacity: .18; }

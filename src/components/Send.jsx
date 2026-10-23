@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useTheme } from '../App'
 import { API } from '../lib/api'
+import { AuthShell } from './AuthDesign'
 
 const MAX = 5000
 const EXPIRE_OPTIONS = [
@@ -141,19 +142,12 @@ export default function Send() {
     ? 'w-full px-4 py-3 rounded-xl text-sm font-medium bg-white/5 border border-white/10 text-white placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all duration-200'
     : 'w-full px-4 py-3 rounded-xl text-sm font-medium bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-500 transition-all duration-200'
 
-  const base = dark
-    ? 'min-h-screen bg-surface dot-grid flex items-center justify-center p-4 py-8'
-    : 'min-h-screen bg-gradient-to-br from-brand-50 to-white flex items-center justify-center p-4 py-8'
-
   const anonChatEnabled = profile?.allowAnonymousChat
 
   return (
-    <div className={base}>
-      <div className={`relative w-full max-w-lg ${dark ? 'glass' : 'card-light'} p-8 overflow-hidden animate-scale-in`}>
-        <div className={`absolute -top-20 -right-20 w-56 h-56 rounded-full opacity-15 animate-blob ${dark ? 'bg-brand-700' : 'bg-brand-200'}`}/>
-        <div className={`absolute -bottom-16 -left-16 w-48 h-48 rounded-full opacity-10 animate-blob ${dark ? 'bg-brand-800' : 'bg-brand-100'}`} style={{animationDelay:'4s'}}/>
-
-        <div className="relative z-10 flex flex-col items-center gap-5">
+    <AuthShell dark={dark} wide>
+      <div className="send-page">
+        <div className="send-form flex flex-col gap-5 animate-fade-up">
           {/* Ghost illustration */}
           <div className="w-24 h-24 animate-float">
             <GhostIllustration />
@@ -386,6 +380,6 @@ export default function Send() {
           </p>
         </div>
       </div>
-    </div>
+    </AuthShell>
   )
 }

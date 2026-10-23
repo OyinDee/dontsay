@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-export function AuthShell({ children, dark }) {
+export function AuthShell({ children, dark, wide = false }) {
   return (
-    <main className={`auth-page ${dark ? 'auth-dark' : 'auth-light'}`}>
+    <main className={`auth-page ${dark ? 'auth-dark' : 'auth-light'} ${wide ? 'auth-wide' : ''}`}>
       <div className="auth-atmosphere" aria-hidden="true">
         {Array.from({ length: 7 }, (_, index) => (
           <span key={index} className="auth-whisper" style={{
@@ -17,7 +17,7 @@ export function AuthShell({ children, dark }) {
         <span className="auth-mark" aria-hidden="true"><i/><i/><i/></span>
         <span>wispa</span>
       </div>
-      <section className="auth-content">{children}</section>
+      <section className={`auth-content ${wide ? 'auth-content-wide' : ''}`}>{children}</section>
       <p className="auth-footnote">A little mystery looks good on you.</p>
     </main>
   )

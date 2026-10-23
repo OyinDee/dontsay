@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../App'
+import { AuthShell } from './AuthDesign'
 
 function SuccessIllustration() {
   return (
@@ -56,28 +57,19 @@ export default function Sent() {
   const { dark } = useTheme()
   const navigate = useNavigate()
 
-  const base = dark
-    ? 'min-h-screen bg-surface dot-grid flex items-center justify-center p-4'
-    : 'min-h-screen bg-gradient-to-br from-brand-50 to-white flex items-center justify-center p-4'
-
   return (
-    <div className={base}>
-      <div className={`relative w-full max-w-sm ${dark ? 'glass' : 'card-light'} p-8 overflow-hidden animate-scale-in text-center`}>
-        {/* Orbs */}
-        <div className={`absolute -top-20 -right-20 w-56 h-56 rounded-full opacity-15 animate-blob ${dark ? 'bg-brand-700' : 'bg-brand-200'}`}/>
-        <div className={`absolute -bottom-16 -left-16 w-48 h-48 rounded-full opacity-10 animate-blob ${dark ? 'bg-brand-800' : 'bg-brand-100'}`} style={{animationDelay:'3s'}}/>
-
-        <div className="relative z-10 flex flex-col items-center gap-5">
+    <AuthShell dark={dark}>
+      <div className="flow-page sent-page flex flex-col items-center gap-5 animate-scale-in text-center">
           <div className="w-28 h-28 animate-float">
             <SuccessIllustration />
           </div>
 
           <div>
             <h1 className={`text-2xl font-bold tracking-tight ${dark ? 'text-white' : 'text-gray-900'}`}>
-              BOOM! Your wispa just ninja'd its way to them! ??
+              Message sent!
             </h1>
             <p className={`text-sm mt-2 ${dark ? 'text-white/50' : 'text-gray-500'}`}>
-              Want your own secret mailbox? It's free (like your tea-spilling spirit! ??)
+              Your anonymous message is on its way. Want an inbox of your own?
             </p>
           </div>
 
@@ -100,8 +92,7 @@ export default function Sent() {
             ${dark ? 'text-white/40 hover:text-white/70' : 'text-gray-400 hover:text-gray-700'}`}>
             Send another
           </button>
-        </div>
       </div>
-    </div>
+    </AuthShell>
   )
 }

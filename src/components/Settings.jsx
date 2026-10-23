@@ -59,7 +59,7 @@ export default function Settings({ dark, onClose, initialSettings, onSaved }) {
   const sub   = dark ? 'text-white/40' : 'text-gray-400'
 
   return (
-    <div className="flex flex-col gap-5 animate-fade-up">
+    <div className="settings-page flex flex-col gap-5 animate-fade-up">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className={`text-base font-bold ${dark ? 'text-white' : 'text-gray-900'}`}>Settings</h2>
@@ -69,7 +69,7 @@ export default function Settings({ dark, onClose, initialSettings, onSaved }) {
       </div>
 
       {/* Profile image */}
-      <div className={`${card} rounded-2xl p-5 flex items-center gap-4`}>
+      <div className={`settings-panel settings-profile ${card} rounded-2xl p-5 flex items-center gap-4`}>
         <div
           className="relative w-16 h-16 rounded-2xl overflow-hidden cursor-pointer group shrink-0"
           onClick={() => fileRef.current?.click()}
@@ -98,7 +98,7 @@ export default function Settings({ dark, onClose, initialSettings, onSaved }) {
       </div>
 
       {/* Bio */}
-      <div className={`${card} rounded-2xl p-5 flex flex-col gap-2`}>
+      <div className={`settings-panel settings-bio ${card} rounded-2xl p-5 flex flex-col gap-2`}>
         <label className={`text-xs font-semibold uppercase tracking-wider ${sub}`}>Bio</label>
         <textarea
           value={bio}
@@ -116,7 +116,7 @@ export default function Settings({ dark, onClose, initialSettings, onSaved }) {
       </div>
 
       {/* Toggles */}
-      <div className={`${card} rounded-2xl divide-y ${dark ? 'divide-white/8' : 'divide-gray-100'}`}>
+      <div className={`settings-panel settings-toggles ${card} rounded-2xl divide-y ${dark ? 'divide-white/8' : 'divide-gray-100'}`}>
         {[
           {
             key: 'acceptMessages',

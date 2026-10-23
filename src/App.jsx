@@ -23,10 +23,11 @@ function ThemeToggle() {
     <button
       onClick={toggle}
       aria-label="Toggle theme"
-      className="fixed top-4 right-4 z-50 flex items-center justify-center w-10 h-10 rounded-full
-        bg-white/10 backdrop-blur-md border border-white/15
-        hover:bg-white/20 active:scale-90
-        transition-all duration-200 text-white/80 hover:text-white"
+      className={`fixed top-4 right-4 z-50 flex items-center justify-center w-10 h-10 rounded-full
+        backdrop-blur-md active:scale-90 transition-all duration-200
+        ${dark
+          ? 'bg-white/10 border border-white/15 text-white/80 hover:bg-white/20 hover:text-white'
+          : 'bg-black/5 border border-black/10 text-gray-600 hover:bg-black/10 hover:text-gray-900'}`}
     >
       {dark ? (
         /* Sun icon */

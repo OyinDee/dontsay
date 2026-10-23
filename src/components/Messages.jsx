@@ -179,14 +179,14 @@ function MessageCard({ msg, index, dark, username, onDownload, onReply, replying
   const [expanded, setExpanded] = useState(false)
   const isLong    = msg.message?.length > 200
   const expired   = msg.expiresAt && new Date(msg.expiresAt) < new Date()
+  const canReply  = msg.canReply === true
 
   return (
-    <div className={`group flex flex-col rounded-2xl overflow-hidden transition-all duration-300 animate-message-in
-      ${dark ? 'bg-[#1c1f2e] border border-white/10 hover:border-white/20' : 'bg-white border border-gray-200 hover:border-brand-300'}
+    <article className={`wispa-entry group flex flex-col transition-all duration-300 animate-message-in
       ${expired ? 'opacity-50' : ''}`}
       style={{ animationDelay: `${index * 60}ms` }}>
       {msg.imageURL && !expired && (
-        <div className="relative overflow-hidden h-44 cursor-pointer group/img"
+        <div className="relative overflow-hidden h-44 rounded-xl cursor-pointer group/img"
           onClick={() => window.open(msg.imageURL, '_blank')}>
           <img src={msg.imageURL} alt="Attached"
             className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-105"/>
@@ -198,11 +198,13 @@ function MessageCard({ msg, index, dark, username, onDownload, onReply, replying
         </div>
       )}
 
-      <div className="flex flex-col gap-3 p-5">
-        <div className="flex items-start justify-between gap-2">
-          <svg className="w-7 h-7 text-brand-500 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+      <div className="wispa-entry-body flex flex-col gap-3">
+        <div className="flex items-center justify-between gap-2">
+          <span className="wispa-quote-mark">
+          <svg className="w-4 h-4 text-brand-500 shrink-0" fill="currentColor" viewBox="0 0 24 24">
             <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
           </svg>
+          </span>
           {msg.expiresAt && <ExpiryBadge expiresAt={msg.expiresAt} dark={dark}/>}
         </div>
 
@@ -223,12 +225,12 @@ function MessageCard({ msg, index, dark, username, onDownload, onReply, replying
           </button>
         )}
 
-        <div className={`flex items-center justify-between pt-3 border-t ${dark ? 'border-white/8' : 'border-gray-100'}`}>
+        <div className="flex items-center justify-between pt-3 border-t border-current/10">
           <span className={`text-xs font-mono ${dark ? 'text-white/35' : 'text-gray-400'}`}>
             {new Date(msg.time).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'2-digit', minute:'2-digit' })}
           </span>
           <div className="flex items-center gap-1.5">
-            {!expired && (
+            {!expired && canReply && (
               <button onClick={onReply} disabled={replying}
                 className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg font-medium transition-all duration-200 active:scale-90 disabled:opacity-50
                   ${dark ? 'text-brand-400 hover:text-brand-300 hover:bg-brand-500/10' : 'text-brand-600 hover:text-brand-500 hover:bg-brand-50'}`}>
@@ -251,7 +253,7 @@ function MessageCard({ msg, index, dark, username, onDownload, onReply, replying
           </div>
         </div>
       </div>
-    </div>
+    </article>
   )
 }
 
@@ -260,8 +262,7 @@ function ThreadItem({ thread, dark, onClick }) {
   const unread = thread.unreadCount || 0
   return (
     <button onClick={onClick}
-      className={`w-full flex items-center gap-3 p-4 rounded-2xl text-left transition-all duration-200 active:scale-[0.98]
-        ${dark ? 'bg-[#1c1f2e] border border-white/10 hover:border-white/20' : 'bg-white border border-gray-200 hover:border-brand-300'}`}>
+      className={`wispa-thread-item w-full flex items-center gap-3 py-4 text-left transition-all duration-200 active:scale-[0.98]`}>
       <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm shrink-0
         ${dark ? 'bg-brand-700/40 text-brand-300' : 'bg-brand-100 text-brand-700'}`}>
         {(thread.peerName || thread.senderAlias)?.[0] || '?'}
@@ -404,6 +405,10 @@ export default function Messages() {
   // Start (or reopen) an anonymous conversation from an inbox message.
   const startReply = async (msg) => {
     if (!msg?._id || replyingId) return
+    if (!msg.canReply) {
+      setToast('This message has no reply email, so a conversation cannot be started.')
+      return
+    }
     setReplyingId(msg._id)
     try {
       const r = await axios.post(
@@ -506,13 +511,17 @@ export default function Messages() {
   )
 
   return (
-    <div className={`${surface} h-[100dvh] flex flex-col overflow-hidden`}>
+    <div className={`${surface} dashboard-shell ${dark ? 'dashboard-dark' : 'dashboard-light'} h-[100dvh] flex flex-col overflow-hidden`}>
       {/* Toast */}
       {toast && <Toast msg={toast} dark={dark} onDismiss={() => setToast(null)}/>}
 
       <div className="flex-1 overflow-y-auto overscroll-contain">
-      <div className="max-w-3xl mx-auto px-4 pt-8 pb-8">
+      <div className="dashboard-content max-w-xl mx-auto px-4 pt-8 pb-8">
         {/* Top header */}
+        <div className="dashboard-brand-row">
+          <span className="dashboard-wordmark"><span className="auth-mark" aria-hidden="true"><i/><i/><i/></span>wispa</span>
+          <span className="dashboard-eyebrow">YOUR PRIVATE INBOX</span>
+        </div>
         <div className="flex items-center gap-3 mb-6">
           <div className="relative shrink-0">
             {userSettings?.profileImage ? (
@@ -534,6 +543,7 @@ export default function Messages() {
               {msgCount === 0 ? 'No wispas yet' : `${msgCount} ${msgCount === 1 ? 'wispa' : 'wispas'}`}
             </p>
           </div>
+          <h1 className="ml-auto text-right text-sm font-semibold opacity-70">Your inbox</h1>
         </div>
 
         {/* Share panel */}
@@ -544,21 +554,19 @@ export default function Messages() {
         )}
 
         {/* Tabs */}
-        <div className={`flex mb-5 p-1 rounded-2xl gap-1 ${dark ? 'bg-white/5' : 'bg-gray-100'}`}>
+        <div className="dashboard-tabs flex mb-5 gap-1">
           {[
             { key: TAB.WISPAS,   label: 'Wispas',   badge: msgCount },
             { key: TAB.THREADS,  label: 'Anon Chat', badge: threads.filter(t => t.unreadCount > 0).length },
             { key: TAB.SETTINGS, label: 'Settings',  badge: 0 },
           ].map(({ key, label, badge }) => (
             <button key={key} onClick={() => setActiveTab(key)}
-              className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200
-                ${activeTab === key
-                  ? dark ? 'bg-brand-600 text-white' : 'bg-white text-gray-900'
-                  : dark ? 'text-white/40 hover:text-white' : 'text-gray-500 hover:text-gray-800'}`}>
+              className={`dashboard-tab flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-semibold transition-all duration-200
+                ${activeTab === key ? 'is-active' : ''}`}>
               {label}
               {badge > 0 && (
                 <span className={`w-4 h-4 rounded-full text-xs flex items-center justify-center font-bold
-                  ${activeTab === key ? 'bg-white/25 text-white' : 'bg-brand-500 text-white'}`}>
+                  ${activeTab === key ? 'bg-brand-500 text-white' : 'bg-current/10 text-current'}`}>
                   {badge}
                 </span>
               )}
@@ -569,7 +577,7 @@ export default function Messages() {
         {/* Tab content */}
         {activeTab === TAB.WISPAS && (
           msgCount === 0 ? <EmptyState dark={dark}/> : (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="wispa-timeline flex flex-col gap-5">
               {messages.map((msg, i) => (
                 <MessageCard key={msg._id || i} msg={msg} index={i} dark={dark} username={username}
                   onDownload={() => buildAndDownloadCard(msg, username, i)}
@@ -581,7 +589,7 @@ export default function Messages() {
         )}
 
         {activeTab === TAB.THREADS && (
-          <div className="flex flex-col gap-3">
+          <div className="wispa-thread-list flex flex-col">
             {threads.length === 0 ? (
               <div className={`flex flex-col items-center gap-3 py-16 text-center ${dark ? 'text-white/40' : 'text-gray-400'}`}>
                 <svg className="w-12 h-12 animate-float" viewBox="0 0 48 48" fill="none">
@@ -615,7 +623,7 @@ export default function Messages() {
       </div>
 
       {/* Bottom nav */}
-      <div className={`shrink-0 flex items-center justify-between px-6 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-xl
+      <div className={`dashboard-dock shrink-0 flex items-center justify-between px-6 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-xl
         ${dark ? 'bg-[#0f1117]/90 border-t border-white/8' : 'bg-white/90 border-t border-gray-200'}`}>
         <div className="flex items-center gap-2.5">
           <div className="relative shrink-0">
