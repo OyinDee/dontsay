@@ -455,36 +455,39 @@
   opacity: .52;
 }
 .dashboard-tabs {
-  position: relative;
   align-items: center;
-  border-bottom: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+  gap: 0;
+  padding: 4px;
+  border: 1px solid color-mix(in srgb, currentColor 7%, transparent);
+  border-radius: 18px;
+  background: color-mix(in srgb, currentColor 4%, transparent);
 }
 .dashboard-tab {
-  position: relative;
-  flex: none;
+  min-width: 0;
+  min-height: 36px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
   color: #7d8497;
+  white-space: nowrap;
 }
-.dashboard-tab:hover, .dashboard-tab.is-active { color: currentColor; }
+.dashboard-tab:hover { color: currentColor; }
+.dashboard-tab.is-active {
+  background: color-mix(in srgb, var(--dashboard-me) 52%, #17201f);
+  color: #fff;
+}
 .dashboard-tab-count {
   padding: 1px 6px;
   border-radius: 99px;
-  background: #7d8497;
-  color: var(--wispah-bg);
+  background: color-mix(in srgb, currentColor 14%, transparent);
+  color: inherit;
   font-size: 11px;
   font-weight: 700;
   line-height: 1.35;
 }
 .dashboard-tab.is-active .dashboard-tab-count {
-  background: var(--dashboard-me);
-  color: var(--wispah-bg, #0f1218);
-}
-.dashboard-tab-indicator {
-  position: absolute;
-  bottom: -1px;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--dashboard-me);
-  transition: left .3s ease, width .3s ease;
+  background: color-mix(in srgb, #fff 24%, transparent);
+  color: #fff;
 }
 .wispa-timeline {
   position: relative;
@@ -719,7 +722,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .auth-whisper { animation: none; opacity: .18; }
-  .auth-progress span, .auth-field::before, .dashboard-tab-indicator { transition: none; }
+  .auth-progress span, .auth-field::before { transition: none; }
   .wispah-streak { animation: none; opacity: .2; width: var(--streak-width); }
   .not-found-orbit { animation: none; }
 }

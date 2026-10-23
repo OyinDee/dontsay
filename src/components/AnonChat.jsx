@@ -209,7 +209,7 @@ function TypingStatic({ name, dark }) {
           TYPING_SYMBOLS[Math.floor(Math.random() * TYPING_SYMBOLS.length)]
         ).join('')
       )
-    }, 80)
+    }, 1000)
     return () => clearInterval(id)
   }, [])
 

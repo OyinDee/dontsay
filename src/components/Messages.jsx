@@ -338,10 +338,8 @@ export default function Messages() {
   const [replyingId, setReplyingId]     = useState(null)
   const [toast, setToast]               = useState(null)
   const [liveMessages, setLiveMessages] = useState([]) // new wispas from socket
-  const [tabIndicator, setTabIndicator] = useState({ left: 0, width: 0 })
   const navigate   = useNavigate()
   const qrCodeRef  = useRef(null)
-  const tabRefs    = useRef({})
   const token      = localStorage.getItem('wispaToken')
 
   const { data, error, mutate } = useSWR(
@@ -390,17 +388,6 @@ export default function Messages() {
     if (activeTab !== TAB.THREADS) return
     loadThreads()
   }, [activeTab, loadThreads])
-
-  useEffect(() => {
-    const button = tabRefs.current[activeTab]
-    if (!button) return
-    const updateIndicator = () => {
-      setTabIndicator({ left: button.offsetLeft, width: button.offsetWidth })
-    }
-    updateIndicator()
-    window.addEventListener('resize', updateIndicator)
-    return () => window.removeEventListener('resize', updateIndicator)
-  }, [activeTab])
 
   const logOut = () => {
     disconnectSocket()
@@ -560,14 +547,14 @@ export default function Messages() {
         )}
 
         {/* Tabs */}
-        <div className="dashboard-tabs flex mb-5 gap-1">
+        <div className="dashboard-tabs flex mb-5">
           {[
             { key: TAB.WISPAS,   label: 'Wispas',   badge: msgCount },
             { key: TAB.THREADS,  label: 'Anon Chat', badge: threads.filter(t => t.unreadCount > 0).length },
             { key: TAB.SETTINGS, label: 'Settings',  badge: 0 },
           ].map(({ key, label, badge }) => (
-            <button key={key} ref={element => { tabRefs.current[key] = element }} onClick={() => setActiveTab(key)}
-              className={`dashboard-tab flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-semibold transition-all duration-200
+            <button key={key} onClick={() => setActiveTab(key)}
+              className={`dashboard-tab flex flex-1 items-center justify-center gap-1.5 py-2 text-xs font-semibold transition-all duration-200
                 ${activeTab === key ? 'is-active' : ''}`}>
               {label}
               {badge > 0 && (
@@ -577,7 +564,6 @@ export default function Messages() {
               )}
             </button>
           ))}
-          <span className="dashboard-tab-indicator" style={tabIndicator}/>
         </div>
 
         {/* Tab content */}
