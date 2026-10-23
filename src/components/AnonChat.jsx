@@ -108,6 +108,7 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
   const [expiresIn, setExpiresIn]   = useState(null)
   const [showExpiry, setShowExpiry] = useState(false)
   const [sending, setSending]       = useState(false)
+  const [sendError, setSendError]   = useState('')
   const [peerTyping, setPeerTyping] = useState(false)
   const bottomRef = useRef(null)
   const typingTimer = useRef(null)
@@ -154,6 +155,7 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
   const send = async () => {
     if (!content.trim()) return
     setSending(true)
+    setSendError('')
     const endpoint = isRecipient ? `${API}/anon/reply` : `${API}/anon/send`
     try {
       const res = await axios.post(endpoint, {
@@ -167,8 +169,8 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
         setMessages(prev => prev.some(m => m._id === sent._id) ? prev : [...prev, sent])
       }
       setContent(''); setTitle('')
-    } catch {
-      // silently fail — socket event will update UI anyway
+    } catch (err) {
+      setSendError(err.response?.data?.message || 'Message could not be sent. Please try again.')
     } finally {
       setSending(false)
     }
@@ -250,6 +252,10 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
 
       {/* Compose area */}
       <div className={`px-4 pb-4 pt-2 border-t ${dark ? 'border-white/8 bg-[#1c1f2e]' : 'border-gray-200 bg-white'}`}>
+        {sendError && (
+          <p role="alert" className="mb-2 text-xs text-red-400">{sendError}</p>
+        )}
+
         {/* Optional title row */}
         {showTitle && (
           <input

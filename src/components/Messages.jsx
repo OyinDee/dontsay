@@ -414,6 +414,7 @@ export default function Messages() {
           _id: r.data.threadId,
           senderAlias: r.data.senderAlias,
           status: r.data.status,
+          isRecipient: true,
         })
       } else {
         setToast(r.data?.message || 'Could not start that conversation.')
@@ -462,7 +463,7 @@ export default function Messages() {
       <div className="flex-1 overflow-hidden p-4 pb-0">
         <AnonChat
           thread={openThread}
-          isRecipient={true}
+          isRecipient={openThread.isRecipient}
           dark={dark}
           onClose={() => {
             setOpenThread(null)
