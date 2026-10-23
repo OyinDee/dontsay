@@ -455,7 +455,7 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
   return (
     <div className={`anon-chat-panel mx-auto flex h-full min-h-0 w-full max-w-xl flex-col overflow-hidden border-x ${base} ${dark ? 'border-white/5' : 'border-gray-200'}`}>
       {/* Header */}
-      <div className={`sticky top-0 z-10 flex shrink-0 items-center gap-3 border-b px-4 pb-3 pt-[max(1.25rem,env(safe-area-inset-top))] sm:py-3 ${
+      <div className={`chat-conversation-header sticky top-0 z-10 flex shrink-0 items-center gap-3 border-b px-4 py-3 ${
         dark ? 'border-[#2a3040] bg-[#0f1218]' : 'border-gray-200 bg-[#f6f5f1]'
       }`}>
         <button onClick={onClose} aria-label="Back to conversations"
@@ -470,7 +470,7 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
           ))}
         </div>
         <div className="flex-1 min-w-0">
-          <p className={`truncate text-sm font-bold ${dark ? 'text-white' : 'text-gray-900'}`}>
+          <p className={`text-sm font-bold break-words ${dark ? 'text-white' : 'text-gray-900'}`}>
             {peerName}
           </p>
           <p
@@ -515,7 +515,7 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
       )}
 
       {/* Compose area */}
-      <div className={`shrink-0 border-t px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-2 ${dark ? 'border-[#2a3040] bg-[#0f1218]' : 'border-gray-200 bg-[#f6f5f1]'}`}>
+      <div className={`chat-compose-area shrink-0 border-t px-3 pt-2 ${dark ? 'border-[#2a3040] bg-[#0f1218]' : 'border-gray-200 bg-[#f6f5f1]'}`}>
         {sendError && (
           <p role="alert" className="mb-2 text-xs text-red-400">{sendError}</p>
         )}

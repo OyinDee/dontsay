@@ -375,6 +375,8 @@
 }
 .chat-app-shell,
 .anon-chat-panel { position: relative; z-index: 1; background: transparent; }
+.chat-conversation-header { padding-top: max(.75rem, env(safe-area-inset-top, 0px)); }
+.chat-compose-area { padding-bottom: max(.75rem, env(safe-area-inset-bottom, 0px)); }
 .typing-static { max-width: 100%; min-height: 1em; overflow-wrap: anywhere; font-family: ui-monospace, monospace; letter-spacing: .08em; line-height: 1.4; }
 .voice-player-progress {
   height: 3px;
@@ -412,6 +414,18 @@
   --wispah-bg: #f6f5f1;
   --wispah-line: #dedbd2;
   color: #181a21;
+}
+@media (max-width: 639px) {
+  .chat-fullscreen {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    padding: 0;
+  }
+  .chat-conversation-header { padding-right: 4rem; }
 }
 .dashboard-content { width: min(100%, 520px); }
 .dashboard-profile { min-height: 48px; padding-right: 48px; }
