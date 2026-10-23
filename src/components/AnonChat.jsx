@@ -42,6 +42,104 @@ function ExpiryBadge({ expiresAt, dark }) {
   )
 }
 
+function formatAudioTime(seconds) {
+  const totalSeconds = Number.isFinite(seconds) ? Math.max(0, Math.floor(seconds)) : 0
+  const minutes = Math.floor(totalSeconds / 60)
+  return `${minutes}:${String(totalSeconds % 60).padStart(2, '0')}`
+}
+
+function VoicePlayer({ src, durationSeconds, dark }) {
+  const audioRef = useRef(null)
+  const [duration, setDuration] = useState(durationSeconds || 0)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [playing, setPlaying] = useState(false)
+  const [failed, setFailed] = useState(false)
+
+  useEffect(() => {
+    setDuration(durationSeconds || 0)
+    setCurrentTime(0)
+    setPlaying(false)
+    setFailed(false)
+  }, [src, durationSeconds])
+
+  const onLoadedMetadata = () => {
+    const mediaDuration = audioRef.current?.duration
+    if (Number.isFinite(mediaDuration) && mediaDuration > 0) {
+      setDuration(mediaDuration)
+    }
+  }
+
+  const togglePlayback = () => {
+    const audio = audioRef.current
+    if (!audio) return
+    if (audio.paused) {
+      audio.play().catch(() => setFailed(true))
+    } else {
+      audio.pause()
+    }
+  }
+
+  const seek = event => {
+    const audio = audioRef.current
+    if (!audio || !duration) return
+    audio.currentTime = Number(event.target.value)
+    setCurrentTime(audio.currentTime)
+  }
+
+  const progress = duration ? Math.min((currentTime / duration) * 100, 100) : 0
+
+  return (
+    <div className={`voice-player mt-2 flex h-10 max-w-full items-center gap-2.5 rounded-full px-3
+      ${dark ? 'bg-white/15 text-white' : 'bg-gray-200 text-gray-800'}`}>
+      <audio
+        ref={audioRef}
+        src={src}
+        preload="metadata"
+        onLoadedMetadata={onLoadedMetadata}
+        onDurationChange={onLoadedMetadata}
+        onTimeUpdate={event => setCurrentTime(event.currentTarget.currentTime)}
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        onEnded={() => { setPlaying(false); setCurrentTime(0) }}
+        onError={() => setFailed(true)}
+        className="sr-only"
+      />
+      <button
+        type="button"
+        onClick={togglePlayback}
+        disabled={failed}
+        aria-label={playing ? 'Pause voice note' : 'Play voice note'}
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full hover:bg-black/10 disabled:opacity-40"
+      >
+        {playing ? (
+          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M7 5h4v14H7zm6 0h4v14h-4z"/>
+          </svg>
+        ) : (
+          <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+        )}
+      </button>
+      <span className="shrink-0 font-mono text-xs tabular-nums">
+        {formatAudioTime(currentTime)} / {formatAudioTime(duration)}
+      </span>
+      <input
+        type="range"
+        min="0"
+        max={duration || 1}
+        step="0.1"
+        value={Math.min(currentTime, duration || 0)}
+        onChange={seek}
+        aria-label="Voice note position"
+        className={`voice-player-progress min-w-8 flex-1 ${dark ? 'voice-player-progress-dark' : ''}`}
+        style={{ '--audio-progress': `${progress}%` }}
+      />
+      {failed && <span role="status" className="sr-only">Audio could not be played</span>}
+    </div>
+  )
+}
+
 function TimelineMessage({ msg, isMe, name, dark }) {
   const expired = msg.expiresAt && new Date(msg.expiresAt) < new Date()
   return (
@@ -78,8 +176,7 @@ function TimelineMessage({ msg, isMe, name, dark }) {
             </a>
           )}
           {msg.voiceURL && (
-            <audio src={msg.voiceURL} controls preload="metadata"
-              className="mt-2 h-10 max-w-full accent-emerald-400"/>
+            <VoicePlayer src={msg.voiceURL} durationSeconds={msg.voiceDuration} dark={dark}/>
           )}
         </>
       )}
@@ -190,6 +287,7 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
         ...(expiresIn ? { expiresIn } : {}),
         ...(image ? { image: image.dataUrl } : {}),
         ...(voiceNote ? { voiceNote: voiceNote.dataUrl } : {}),
+        ...(voiceNote ? { voiceDuration: voiceNote.duration } : {}),
       }, { headers: authHeader() })
       const sent = res.data?.message
       if (sent) {
@@ -265,9 +363,11 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
           return
         }
         const reader = new FileReader()
+        const duration = Math.max(1, Math.round((Date.now() - recordStartedAtRef.current) / 1000))
+        setRecordSeconds(duration)
         reader.onload = () => {
           if (typeof reader.result === 'string') {
-            setVoiceNote({ dataUrl: reader.result, url: URL.createObjectURL(blob), duration: Math.round((Date.now() - recordStartedAtRef.current) / 1000) })
+            setVoiceNote({ dataUrl: reader.result, url: URL.createObjectURL(blob), duration })
           } else {
             setSendError('The voice note could not be prepared. Please record it again.')
           }
@@ -405,7 +505,7 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
 
         {voiceNote && (
           <div className="mb-2 flex items-center gap-2">
-            <audio src={voiceNote.url} controls className="h-10 min-w-0 flex-1"/>
+            <VoicePlayer src={voiceNote.url} durationSeconds={voiceNote.duration} dark={dark}/>
             <button onClick={removeVoiceNote} aria-label="Remove voice note"
               className="rounded-full px-2 py-1 text-lg text-red-400 hover:bg-red-400/10">&times;</button>
           </div>

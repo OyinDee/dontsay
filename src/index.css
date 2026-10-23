@@ -375,6 +375,29 @@
 }
 .chat-app-shell,
 .anon-chat-panel { position: relative; z-index: 1; background: transparent; }
+.voice-player-progress {
+  height: 3px;
+  appearance: none;
+  border-radius: 99px;
+  background: linear-gradient(to right, #13805a var(--audio-progress), color-mix(in srgb, currentColor 25%, transparent) var(--audio-progress));
+  cursor: pointer;
+}
+.voice-player-progress::-webkit-slider-thumb {
+  width: 9px;
+  height: 9px;
+  appearance: none;
+  border: 0;
+  border-radius: 50%;
+  background: currentColor;
+}
+.voice-player-progress::-moz-range-thumb {
+  width: 9px;
+  height: 9px;
+  border: 0;
+  border-radius: 50%;
+  background: currentColor;
+}
+.voice-player-progress-dark { background: linear-gradient(to right, #74e3b5 var(--audio-progress), color-mix(in srgb, currentColor 25%, transparent) var(--audio-progress)); }
 .dashboard-dark {
   --dashboard-me: #74e3b5;
   --dashboard-peer: #b9aaff;
