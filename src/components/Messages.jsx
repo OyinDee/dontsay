@@ -472,7 +472,7 @@ export default function Messages() {
 
   // ── Open thread view ──
   if (openThread) return (
-    <div className={`chat-app-shell dashboard-shell ${dark ? 'dashboard-dark' : 'dashboard-light'} ${base} flex min-h-0 flex-col`} style={{ height: '100dvh' }}>
+    <div className={`chat-app-shell dashboard-shell ${dark ? 'dashboard-dark' : 'dashboard-light'} ${base} flex min-h-0 flex-col`} style={{ height: '100dvh', minHeight: 0 }}>
       <div className="min-h-0 flex-1 overflow-hidden p-0 sm:p-4 sm:pb-0">
         <AnonChat
           thread={openThread}
