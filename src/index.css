@@ -426,6 +426,10 @@
     padding: 0;
   }
   .chat-conversation-header { padding-right: 4rem; }
+  .app-root > button[aria-label="Toggle theme"] {
+    top: max(1rem, env(safe-area-inset-top, 0px));
+    right: max(1rem, env(safe-area-inset-right, 0px));
+  }
 }
 .dashboard-content { width: min(100%, 520px); }
 .dashboard-profile { min-height: 48px; padding-right: 48px; }
