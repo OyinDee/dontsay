@@ -209,7 +209,7 @@ function TypingStatic({ name, dark }) {
           TYPING_SYMBOLS[Math.floor(Math.random() * TYPING_SYMBOLS.length)]
         ).join('')
       )
-    }, 1000)
+    }, 500)
     return () => clearInterval(id)
   }, [])
 
@@ -286,7 +286,7 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
       if (threadId === thread._id) {
         setPeerTyping(true)
         clearTimeout(typingTimer.current)
-        typingTimer.current = setTimeout(() => setPeerTyping(false), 5000)
+        typingTimer.current = setTimeout(() => setPeerTyping(false), 1000)
       }
     }
     const onExpired = ({ messageId }) => {

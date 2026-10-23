@@ -426,6 +426,8 @@
     padding: 0;
   }
   .chat-conversation-header { padding-right: 4rem; }
+  .chat-compose-area input:not([type="file"]),
+  .chat-compose-area textarea { font-size: 16px; }
   .app-root > button[aria-label="Toggle theme"] {
     top: max(1rem, env(safe-area-inset-top, 0px));
     right: max(1rem, env(safe-area-inset-right, 0px));
