@@ -264,19 +264,21 @@ function ThreadItem({ thread, dark, onClick }) {
         ${dark ? 'bg-[#1c1f2e] border border-white/10 hover:border-white/20' : 'bg-white border border-gray-200 hover:border-brand-300'}`}>
       <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm shrink-0
         ${dark ? 'bg-brand-700/40 text-brand-300' : 'bg-brand-100 text-brand-700'}`}>
-        {thread.senderAlias?.[0] || '?'}
+        {(thread.peerName || thread.senderAlias)?.[0] || '?'}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <p className={`text-sm font-semibold truncate ${dark ? 'text-white' : 'text-gray-900'}`}>
-            {thread.senderAlias}
+            {thread.peerName || thread.senderAlias}
           </p>
           {thread.status === 'pending_sender_account' && (
             <span className="text-xs px-1.5 py-0.5 rounded-md bg-amber-500/15 text-amber-400 font-medium shrink-0">pending</span>
           )}
         </div>
         <p className={`text-xs truncate mt-0.5 ${dark ? 'text-white/35' : 'text-gray-400'}`}>
-          {thread.lastMessage?.content || 'No messages yet'}
+          {thread.lastMessage?.content || (thread.lastMessage?.imageURL
+            ? 'Image'
+            : thread.lastMessage?.voiceURL ? 'Voice note' : 'No messages yet')}
         </p>
       </div>
       {unread > 0 && (
