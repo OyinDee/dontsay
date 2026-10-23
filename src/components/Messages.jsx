@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, useRef, useCallback } from 'react'
+import { useEffect, useLayoutEffect, useState, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import useSWR from 'swr'
@@ -132,9 +132,25 @@ function ProfilePanel({ username, dark, qrRef, onDownloadQR, settings }) {
   ).catch(() => {})
 
   return (
-    <div className={`rounded-2xl p-6 flex flex-col items-center gap-4 animate-fade-up
-      ${dark ? 'bg-white/4 border border-white/10' : 'bg-white border border-gray-200'}`}>
-      {/* Profile image */}
+    <div className="share-panel animate-fade-up">
+      <div className="share-qr" ref={qrRef}>
+        <QRCode value={shareUrl} size={150} fgColor="#10131a" bgColor="#ffffff" level="H"/>
+      </div>
+      <div className="share-details">
+      <p className="share-label">Your link</p>
+      <p className="share-url">{shareUrl}</p>
+      <div className="share-actions">
+        <CopyButton dark={dark} label="Copy link" onClick={copyLink}
+          icon={<svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>}/>
+        <CopyButton dark={dark} label="Copy with message" onClick={copyWithMsg}
+          icon={<svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>}/>
+        <button onClick={onDownloadQR} className="share-action share-action-primary">
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          Download QR
+        </button>
+      </div>
+      </div>
+      <div className="share-owner">
       {settings?.profileImage ? (
         <img src={settings.profileImage} alt={username} className="w-16 h-16 rounded-2xl object-cover"/>
       ) : (
@@ -148,27 +164,6 @@ function ProfilePanel({ username, dark, qrRef, onDownloadQR, settings }) {
         {settings?.bio && <p className={`text-xs mt-0.5 ${dark ? 'text-white/40' : 'text-gray-500'}`}>{settings.bio}</p>}
         {!settings?.bio && <p className={`text-xs mt-0.5 ${dark ? 'text-white/40' : 'text-gray-500'}`}>Your secret wispa inbox</p>}
       </div>
-      <div className={`w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-xs font-mono
-        ${dark ? 'bg-white/5 border border-white/10 text-white/50' : 'bg-gray-50 border border-gray-200 text-gray-600'}`}>
-        <svg className={`w-3.5 h-3.5 shrink-0 ${dark ? 'text-white/30' : 'text-gray-400'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
-        </svg>
-        <span className="truncate">{shareUrl}</span>
-      </div>
-      <div className="p-3 bg-white rounded-xl" ref={qrRef}>
-        <QRCode value={shareUrl} size={120} fgColor="#0f1117" bgColor="#ffffff" level="H"/>
-      </div>
-      <div className="flex flex-wrap gap-2 justify-center">
-        <CopyButton dark={dark} label="Copy link" onClick={copyLink}
-          icon={<svg className="w-3.5 h-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>}/>
-        <CopyButton dark={dark} label="Copy with message" onClick={copyWithMsg}
-          icon={<svg className="w-3.5 h-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>}/>
-        <button onClick={onDownloadQR}
-          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 active:scale-95
-            ${dark ? 'bg-brand-600/20 border border-brand-600/30 text-brand-300 hover:bg-brand-600/30' : 'bg-brand-50 border border-brand-200 text-brand-700 hover:bg-brand-100'}`}>
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          Download QR
-        </button>
       </div>
     </div>
   )
@@ -212,7 +207,7 @@ function MessageCard({ msg, index, dark, username, onDownload, onReply, replying
           <p className="text-xs font-bold uppercase tracking-widest text-brand-500">{msg.title}</p>
         )}
 
-        <p className={`text-sm leading-relaxed font-medium whitespace-pre-wrap break-words
+        <p className={`wispa-message-text whitespace-pre-wrap break-words
           ${dark ? 'text-gray-100' : 'text-gray-900'}
           ${expired ? 'line-through opacity-60' : ''}`}>
           {expired ? 'This message has vanished' : (isLong && !expanded ? msg.message.slice(0, 200) + '\u2026' : msg.message)}
@@ -345,8 +340,10 @@ export default function Messages() {
   const [replyingId, setReplyingId]     = useState(null)
   const [toast, setToast]               = useState(null)
   const [liveMessages, setLiveMessages] = useState([]) // new wispas from socket
+  const [tabIndicator, setTabIndicator] = useState({ left: 0, width: 0 })
   const navigate   = useNavigate()
   const qrCodeRef  = useRef(null)
+  const tabsRef    = useRef(null)
   const token      = localStorage.getItem('wispaToken')
 
   const { data, error, mutate } = useSWR(
@@ -395,6 +392,19 @@ export default function Messages() {
     if (activeTab !== TAB.THREADS) return
     loadThreads()
   }, [activeTab, loadThreads])
+
+  useLayoutEffect(() => {
+    const updateIndicator = () => {
+      const activeButton = tabsRef.current?.querySelector('[data-active="true"]')
+      if (activeButton) {
+        setTabIndicator({ left: activeButton.offsetLeft, width: activeButton.offsetWidth })
+      }
+    }
+    updateIndicator()
+    const observer = new ResizeObserver(updateIndicator)
+    if (tabsRef.current) observer.observe(tabsRef.current)
+    return () => observer.disconnect()
+  }, [activeTab])
 
   const logOut = () => {
     disconnectSocket()
@@ -461,7 +471,7 @@ export default function Messages() {
   const messages      = [...dedupedLive, ...swrMessages]
   const msgCount      = messages.length
 
-  const surface = dark ? 'bg-surface dot-grid' : 'bg-gradient-to-br from-brand-50/60 to-white'
+  const surface = 'bg-surface'
   const base = `min-h-screen ${surface}`
 
   // ── Open thread view ──
@@ -511,18 +521,14 @@ export default function Messages() {
   )
 
   return (
-    <div className={`${surface} dashboard-shell ${dark ? 'dashboard-dark' : 'dashboard-light'} h-[100dvh] flex flex-col overflow-hidden`}>
+    <div className={`dashboard-shell ${dark ? 'dashboard-dark' : 'dashboard-light'} h-[100dvh] flex flex-col overflow-hidden`}>
       {/* Toast */}
       {toast && <Toast msg={toast} dark={dark} onDismiss={() => setToast(null)}/>}
 
       <div className="flex-1 overflow-y-auto overscroll-contain">
-      <div className="dashboard-content max-w-xl mx-auto px-4 pt-8 pb-8">
+      <div className="dashboard-content max-w-xl mx-auto px-5 pt-4 pb-32">
         {/* Top header */}
-        <div className="dashboard-brand-row">
-          <span className="dashboard-wordmark"><span className="auth-mark" aria-hidden="true"><i/><i/><i/></span>wispa</span>
-          <span className="dashboard-eyebrow">YOUR PRIVATE INBOX</span>
-        </div>
-        <div className="flex items-center gap-3 mb-6">
+        <div className="dashboard-profile flex items-center gap-3 mb-6">
           <div className="relative shrink-0">
             {userSettings?.profileImage ? (
               <img src={userSettings.profileImage} alt={username}
@@ -543,7 +549,6 @@ export default function Messages() {
               {msgCount === 0 ? 'No wispas yet' : `${msgCount} ${msgCount === 1 ? 'wispa' : 'wispas'}`}
             </p>
           </div>
-          <h1 className="ml-auto text-right text-sm font-semibold opacity-70">Your inbox</h1>
         </div>
 
         {/* Share panel */}
@@ -554,25 +559,25 @@ export default function Messages() {
         )}
 
         {/* Tabs */}
-        <div className="dashboard-tabs flex mb-5 gap-1">
+        <nav ref={tabsRef} className="dashboard-tabs flex mb-5 gap-6" aria-label="Inbox sections">
+          <span className="dashboard-tab-indicator" style={{ left: tabIndicator.left, width: tabIndicator.width }}/>
           {[
             { key: TAB.WISPAS,   label: 'Wispas',   badge: msgCount },
             { key: TAB.THREADS,  label: 'Anon Chat', badge: threads.filter(t => t.unreadCount > 0).length },
             { key: TAB.SETTINGS, label: 'Settings',  badge: 0 },
           ].map(({ key, label, badge }) => (
-            <button key={key} onClick={() => setActiveTab(key)}
-              className={`dashboard-tab flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-semibold transition-all duration-200
+            <button key={key} onClick={() => setActiveTab(key)} data-active={activeTab === key}
+              className={`dashboard-tab flex items-center gap-1 py-3 text-sm transition-colors duration-200
                 ${activeTab === key ? 'is-active' : ''}`}>
               {label}
               {badge > 0 && (
-                <span className={`w-4 h-4 rounded-full text-xs flex items-center justify-center font-bold
-                  ${activeTab === key ? 'bg-brand-500 text-white' : 'bg-current/10 text-current'}`}>
+                <span className="dashboard-tab-count">
                   {badge}
                 </span>
               )}
             </button>
           ))}
-        </div>
+        </nav>
 
         {/* Tab content */}
         {activeTab === TAB.WISPAS && (
@@ -623,8 +628,9 @@ export default function Messages() {
       </div>
 
       {/* Bottom nav */}
-      <div className={`dashboard-dock shrink-0 flex items-center justify-between px-6 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-xl
+      <div className={`dashboard-dock px-5 py-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom))] backdrop-blur-xl
         ${dark ? 'bg-[#0f1117]/90 border-t border-white/8' : 'bg-white/90 border-t border-gray-200'}`}>
+        <div className="dashboard-dock-inner flex items-center gap-2.5">
         <div className="flex items-center gap-2.5">
           <div className="relative shrink-0">
             {userSettings?.profileImage ? (
@@ -664,6 +670,7 @@ export default function Messages() {
             </svg>
             Sign out
           </button>
+        </div>
         </div>
       </div>
     </div>

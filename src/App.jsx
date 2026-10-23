@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import Login from './components/Login'
 import Signup from './components/Signup'
 import Send from './components/Send'
@@ -15,6 +15,35 @@ export const ThemeContext = createContext({
   toggle: () => {},
 })
 export const useTheme = () => useContext(ThemeContext)
+
+function WispahBackground({ dark }) {
+  const backgroundRef = useRef(null)
+
+  useEffect(() => {
+    const background = backgroundRef.current
+    const moveLight = event => {
+      background?.style.setProperty('--mx', `${event.clientX}px`)
+      background?.style.setProperty('--my', `${event.clientY}px`)
+    }
+    window.addEventListener('pointermove', moveLight, { passive: true })
+    return () => window.removeEventListener('pointermove', moveLight)
+  }, [])
+
+  return (
+    <div ref={backgroundRef} className={`wispah-background ${dark ? 'wispah-background-dark' : 'wispah-background-light'}`} aria-hidden="true">
+      {Array.from({ length: 9 }, (_, index) => (
+        <span key={index} className="wispah-streak" style={{
+          '--streak-top': `${9 + (index * 23) % 82}%`,
+          '--streak-left': `${4 + (index * 31) % 88}%`,
+          '--streak-width': `${40 + (index * 17) % 90}px`,
+          '--streak-duration': `${5 + (index % 5)}s`,
+          '--streak-delay': `${-index * 1.7}s`,
+          '--streak-color': index % 2 ? 'var(--wispah-violet)' : 'var(--wispah-mint)',
+        }}/>
+      ))}
+    </div>
+  )
+}
 
 // ── Theme Toggle Button (floating) ────────────────────────────
 function ThemeToggle() {
@@ -76,16 +105,19 @@ function App() {
   return (
     <ThemeContext.Provider value={{ dark, toggle }}>
       <div className={dark ? 'dark' : 'light'}>
+        <WispahBackground dark={dark}/>
         <ThemeToggle />
-        <Routes>
-          <Route path="/"             element={<Login />} />
-          <Route path="/create"       element={<Signup />} />
-          <Route path="/send/:username" element={<Send />} />
-          <Route path="/get"          element={<Messages />} />
-          <Route path="/sent"         element={<Sent />} />
-          <Route path="/claim"        element={<ClaimThread />} />
-          <Route path="*"             element={<NotFound />} />
-        </Routes>
+        <div className="app-routes">
+          <Routes>
+            <Route path="/"             element={<Login />} />
+            <Route path="/create"       element={<Signup />} />
+            <Route path="/send/:username" element={<Send />} />
+            <Route path="/get"          element={<Messages />} />
+            <Route path="/sent"         element={<Sent />} />
+            <Route path="/claim"        element={<ClaimThread />} />
+            <Route path="*"             element={<NotFound />} />
+          </Routes>
+        </div>
       </div>
     </ThemeContext.Provider>
   )
