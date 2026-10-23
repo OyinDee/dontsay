@@ -16,6 +16,41 @@ export const ThemeContext = createContext({
 })
 export const useTheme = () => useContext(ThemeContext)
 
+const WISPA_STREAKS = [
+  { top: "15%", left: "8%", width: "96px", color: "var(--wispah-mint)", duration: "7s", delay: "-1s" },
+  { top: "23%", left: "71%", width: "68px", color: "var(--wispah-violet)", duration: "9s", delay: "-5s" },
+  { top: "37%", left: "27%", width: "120px", color: "var(--wispah-violet)", duration: "8s", delay: "-3s" },
+  { top: "52%", left: "83%", width: "82px", color: "var(--wispah-mint)", duration: "10s", delay: "-7s" },
+  { top: "68%", left: "12%", width: "108px", color: "var(--wispah-violet)", duration: "9s", delay: "-4s" },
+  { top: "81%", left: "64%", width: "74px", color: "var(--wispah-mint)", duration: "8s", delay: "-2s" },
+]
+
+function WispahBackground({ dark }) {
+  useEffect(() => {
+    const updatePointer = event => {
+      document.documentElement.style.setProperty('--mx', `${event.clientX}px`)
+      document.documentElement.style.setProperty('--my', `${event.clientY}px`)
+    }
+    window.addEventListener('pointermove', updatePointer, { passive: true })
+    return () => window.removeEventListener('pointermove', updatePointer)
+  }, [])
+
+  return (
+    <div className={`wispah-background ${dark ? '' : 'wispah-background-light'}`} aria-hidden="true">
+      {WISPA_STREAKS.map((streak, index) => (
+        <span key={index} className="wispah-streak" style={{
+          '--streak-top': streak.top,
+          '--streak-left': streak.left,
+          '--streak-width': streak.width,
+          '--streak-color': streak.color,
+          '--streak-duration': streak.duration,
+          '--streak-delay': streak.delay,
+        }}/>
+      ))}
+    </div>
+  )
+}
+
 // ── Theme Toggle Button (floating) ────────────────────────────
 function ThemeToggle() {
   const { dark, toggle } = useTheme()
@@ -75,17 +110,20 @@ function App() {
 
   return (
     <ThemeContext.Provider value={{ dark, toggle }}>
-      <div className={dark ? 'dark' : 'light'}>
+      <div className={`app-root ${dark ? 'dark' : 'light'}`}>
+        <WispahBackground dark={dark}/>
         <ThemeToggle />
-        <Routes>
-          <Route path="/"             element={<Login />} />
-          <Route path="/create"       element={<Signup />} />
-          <Route path="/send/:username" element={<Send />} />
-          <Route path="/get"          element={<Messages />} />
-          <Route path="/sent"         element={<Sent />} />
-          <Route path="/claim"        element={<ClaimThread />} />
-          <Route path="*"             element={<NotFound />} />
-        </Routes>
+        <div className="app-routes">
+          <Routes>
+            <Route path="/"             element={<Login />} />
+            <Route path="/create"       element={<Signup />} />
+            <Route path="/send/:username" element={<Send />} />
+            <Route path="/get"          element={<Messages />} />
+            <Route path="/sent"         element={<Sent />} />
+            <Route path="/claim"        element={<ClaimThread />} />
+            <Route path="*"             element={<NotFound />} />
+          </Routes>
+        </div>
       </div>
     </ThemeContext.Provider>
   )

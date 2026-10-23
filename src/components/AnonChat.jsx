@@ -315,7 +315,7 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
   const base = dark ? 'bg-[#0f1218]' : 'bg-[#f6f5f1]'
 
   return (
-    <div className={`mx-auto flex h-full w-full max-w-xl flex-col overflow-hidden border-x ${base} ${dark ? 'border-white/5' : 'border-gray-200'}`}>
+    <div className={`anon-chat-panel mx-auto flex h-full w-full max-w-xl flex-col overflow-hidden border-x ${base} ${dark ? 'border-white/5' : 'border-gray-200'}`}>
       {/* Header */}
       <div className={`flex items-center gap-3 border-b px-4 py-3 ${
         dark ? 'border-[#2a3040] bg-[#0f1218]' : 'border-gray-200 bg-[#f6f5f1]'
