@@ -194,7 +194,39 @@ const EXPIRE_OPTIONS = [
   { label: '24 hours', value: 86400 },
   { label: '7 days', value: 604800 },
 ]
-const TYPING_SYMBOLS = '/#*~+<>!?&%$'
+const TYPING_SYMBOLS = '/#>?&%$▒░▓'
+
+function TypingStatic({ name, dark }) {
+  const [text, setText] = useState('')
+  const lenRef = useRef(0)
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      const step = Math.random() < 0.2 ? -Math.floor(Math.random() * 4) : 1
+      lenRef.current = Math.max(2, Math.min(26, lenRef.current + step))
+      setText(
+        Array.from({ length: lenRef.current }, () =>
+          TYPING_SYMBOLS[Math.floor(Math.random() * TYPING_SYMBOLS.length)]
+        ).join('')
+      )
+    }, 80)
+    return () => clearInterval(id)
+  }, [])
+
+  return (
+    <section
+      className={`typing-turn relative mt-4 ${dark ? 'text-violet-300' : 'text-violet-600'}`}
+      aria-live="polite"
+    >
+      <span className="typing-node absolute -left-[26px] top-0.5 h-3.5 w-3.5 rounded-full bg-current" />
+      <div className="mb-1 flex items-baseline gap-2 text-xs">
+        <b>{name}</b>
+        <span className={dark ? 'text-white/40' : 'text-gray-400'}>typing</span>
+      </div>
+      <p className="typing-static" aria-label={`${name} is typing`}>{text}</p>
+    </section>
+  )
+}
 
 // ── Main AnonChat ─────────────────────────────────────────────
 export default function AnonChat({ thread, isRecipient, dark, onClose }) {
@@ -208,7 +240,6 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
   const [sending, setSending]       = useState(false)
   const [sendError, setSendError]   = useState('')
   const [peerTyping, setPeerTyping] = useState(false)
-  const [typingSymbolCount, setTypingSymbolCount] = useState(0)
   const [image, setImage]           = useState(null)
   const [voiceNote, setVoiceNote]   = useState(null)
   const [recording, setRecording]   = useState(false)
@@ -271,18 +302,6 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
       s.off('message_expired', onExpired)
     }
   }, [thread._id])
-
-  useEffect(() => {
-    if (!peerTyping) {
-      setTypingSymbolCount(0)
-      return
-    }
-    setTypingSymbolCount(4)
-    const interval = setInterval(() => {
-      setTypingSymbolCount(count => Math.min(count + 4, 48))
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [peerTyping])
 
   // Scroll to bottom on new messages
   useEffect(() => {
@@ -436,7 +455,7 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
   return (
     <div className={`anon-chat-panel mx-auto flex h-full min-h-0 w-full max-w-xl flex-col overflow-hidden border-x ${base} ${dark ? 'border-white/5' : 'border-gray-200'}`}>
       {/* Header */}
-      <div className={`sticky top-0 z-10 flex shrink-0 items-center gap-3 border-b px-4 py-3 ${
+      <div className={`sticky top-0 z-10 flex shrink-0 items-center gap-3 border-b px-4 pb-3 pt-[max(1.25rem,env(safe-area-inset-top))] sm:py-3 ${
         dark ? 'border-[#2a3040] bg-[#0f1218]' : 'border-gray-200 bg-[#f6f5f1]'
       }`}>
         <button onClick={onClose} aria-label="Back to conversations"
@@ -481,17 +500,7 @@ export default function AnonChat({ thread, isRecipient, dark, onClose }) {
               return <TimelineMessage key={msg._id || i} msg={msg} isMe={isMe}
                 name={isMe ? 'you' : peerName} dark={dark}/>
             })}
-            {peerTyping && (
-              <div className="relative mt-4 flex items-start gap-2 text-xs text-violet-300" aria-live="polite">
-                <span className="absolute -left-[25px] mt-0.5 h-3 w-3 rounded-full bg-violet-300"/>
-                <div className="min-w-0">
-                  <p><b>{peerName}</b> typing</p>
-                  <p className="typing-symbols" aria-label={`${peerName} is typing`}>
-                    {Array.from({ length: typingSymbolCount }, (_, index) => TYPING_SYMBOLS[index % TYPING_SYMBOLS.length]).join('')}
-                  </p>
-                </div>
-              </div>
-            )}
+            {peerTyping && <TypingStatic name={peerName} dark={dark}/>}
           </div>
         )}
         <div ref={bottomRef}/>
