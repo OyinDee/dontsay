@@ -4,6 +4,7 @@ import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import QRCode from 'react-qr-code'
 import { useTheme } from '../App'
 import { API } from '../lib/api'
+import { getPostAuthPath } from '../lib/authRedirect'
 
 function SignupIllustration() {
   return (
@@ -52,9 +53,12 @@ export default function Signup() {
   const [showConfirm, setShowConfirm] = useState(false)
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const pendingThreadId = searchParams.get('threadId') // set when coming from /claim
+  const postAuthPath = getPostAuthPath(searchParams)
+  const loginPath = postAuthPath === '/get'
+    ? '/'
+    : `/?returnTo=${encodeURIComponent(postAuthPath)}`
 
-  useEffect(() => { if (localStorage.wispaToken) navigate('/get') }, [navigate])
+  useEffect(() => { if (localStorage.wispaToken) navigate(postAuthPath) }, [navigate, postAuthPath])
 
   const validate = useCallback(() => {
     if (!username || !password || !confirmPassword) { setMessage('Fill in all the blanks, secret agent!'); return false }
@@ -73,16 +77,7 @@ export default function Signup() {
       })
       if (res.data.stat === true) {
         localStorage.setItem('wispaToken', res.data.token)
-        // If arriving from a claim link, auto-claim the thread before redirecting
-        if (pendingThreadId) {
-          try {
-            await axios.post(`${API}/anon/claim-thread`,
-              { threadId: pendingThreadId },
-              { headers: { Authorization: `Bearer ${res.data.token}` } }
-            )
-          } catch { /* non-fatal — user can claim from inbox */ }
-        }
-        navigate('/get')
+        navigate(postAuthPath)
       } else {
         setMessage(res.data.message)
       }
@@ -212,7 +207,7 @@ export default function Signup() {
 
           <span className={`text-sm ${dark ? 'text-white/40' : 'text-gray-400'}`}>
             Already in the club?{' '}
-            <Link to="/" className="text-brand-400 hover:text-brand-300 font-medium transition-colors">
+            <Link to={loginPath} className="text-brand-400 hover:text-brand-300 font-medium transition-colors">
               Sneak back in
             </Link>
           </span>

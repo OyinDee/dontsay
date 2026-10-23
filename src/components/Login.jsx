@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useTheme } from '../App'
 import { API } from '../lib/api'
 import ForgotPassword from './ForgotPassword'
+import { getPostAuthPath } from '../lib/authRedirect'
 
 // ── Inline SVG illustrations ─────────────────────────────────
 function LockIllustration() {
@@ -69,10 +70,15 @@ export default function LoginPage() {
   const [showPwd, setShowPwd]   = useState(false)
   const [forgot, setForgot]     = useState(false)
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const postAuthPath = getPostAuthPath(searchParams)
+  const signupPath = postAuthPath === '/get'
+    ? '/create'
+    : `/create?returnTo=${encodeURIComponent(postAuthPath)}`
 
   useEffect(() => {
-    if (localStorage.wispaToken) navigate('/get')
-  }, [navigate])
+    if (localStorage.wispaToken) navigate(postAuthPath)
+  }, [navigate, postAuthPath])
 
   const logIn = async () => {
     if (!username || !password) { setMessage('Please fill in both fields.'); return }
@@ -83,7 +89,7 @@ export default function LoginPage() {
       })
       if (res.data.stat === true) {
         localStorage.setItem('wispaToken', res.data.token)
-        navigate('/get')
+        navigate(postAuthPath)
       } else {
         setMessage(res.data.message || 'Invalid credentials.')
       }
@@ -214,7 +220,7 @@ export default function LoginPage() {
               </button>
               <span>
                 New to Wispa?{' '}
-                <Link to="/create" className="text-brand-400 hover:text-brand-300 font-medium transition-colors">
+                <Link to={signupPath} className="text-brand-400 hover:text-brand-300 font-medium transition-colors">
                   Sign up
                 </Link>
               </span>

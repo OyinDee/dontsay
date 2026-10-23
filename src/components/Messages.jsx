@@ -381,13 +381,17 @@ export default function Messages() {
     }
   }, [mutate])
 
-  // Load anon threads when tab changes
-  useEffect(() => {
-    if (activeTab !== TAB.THREADS) return
+  const loadThreads = useCallback(() => {
     axios.get(`${API}/anon/threads`, { headers: authHeader() })
       .then(r => setThreads(r.data.threads || []))
       .catch(() => {})
-  }, [activeTab])
+  }, [])
+
+  // Load anon threads when tab changes
+  useEffect(() => {
+    if (activeTab !== TAB.THREADS) return
+    loadThreads()
+  }, [activeTab, loadThreads])
 
   const logOut = () => {
     disconnectSocket()
@@ -460,7 +464,10 @@ export default function Messages() {
           thread={openThread}
           isRecipient={true}
           dark={dark}
-          onClose={() => setOpenThread(null)}
+          onClose={() => {
+            setOpenThread(null)
+            loadThreads()
+          }}
         />
       </div>
       <div style={{ height: '0' }}/>
