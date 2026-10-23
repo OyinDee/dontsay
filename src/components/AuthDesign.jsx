@@ -3,6 +3,16 @@ import { useState } from 'react'
 export function AuthShell({ children, dark, wide = false }) {
   return (
     <main className={`auth-page ${dark ? 'auth-dark' : 'auth-light'} ${wide ? 'auth-wide' : ''}`}>
+      <div className="auth-atmosphere" aria-hidden="true">
+        {Array.from({ length: 7 }, (_, index) => (
+          <span key={index} className="auth-whisper" style={{
+            '--index': index,
+            '--top': `${12 + (index * 17) % 76}%`,
+            '--left': `${6 + (index * 19) % 82}%`,
+            '--width': `${44 + (index * 31) % 110}px`,
+          }}/>
+        ))}
+      </div>
       <div className="auth-brand" aria-label="Wispa">
         <span className="auth-mark" aria-hidden="true"><i/><i/><i/></span>
         <span>wispa</span>
